@@ -1,0 +1,1105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================================================================
+   Satkar — Design Foundation
+   World-class base layer. No !important. No patches.
+   Every value here is the single source of truth.
+   ================================================================ */
+
+@layer base {
+  :root {
+    /* Cinematic design tokens — single source of truth */
+    --grain-opacity: 0.05;
+    --vignette-opacity: 0.65;
+    --ambient-opacity: 0.7;
+    --scrollbar-track: #EDE7DA;
+    --scrollbar-thumb: rgba(139, 115, 85, 0.30);
+    --scrollbar-thumb-hover: rgba(139, 115, 85, 0.50);
+
+    /* Cinematic timing */
+    --t-instant: 80ms;
+    --t-fast: 200ms;
+    --t-normal: 450ms;
+    --t-slow: 800ms;
+    --t-cinematic: 1100ms;
+    --t-dramatic: 1800ms;
+    --t-epic: 2400ms;
+
+    /* Cinematic easing */
+    --ease-organic: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --ease-wood: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-silk: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-mountain: cubic-bezier(0.76, 0, 0.24, 1);
+
+    /* Structural */
+    --nav-height: 88px;
+  }
+
+  @media (max-width: 1023px) {
+    :root {
+      --nav-height: 78px;
+    }
+  }
+
+  /* Smooth scrolling, but only when user hasn't requested reduced motion */
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* Prevent iOS Safari font-boost */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-bg-primary text-text-primary font-body;
+    font-feature-settings:
+      'cv11' on,
+      'ss03' on,
+      'cv02' on,
+      'ss04' on,
+      'kern' on,
+      'liga' on;
+    font-variant-ligatures: common-ligatures contextual;
+    background-color: #F5F0E8;
+  }
+
+  /* Film grain — animated, fixed, barely perceptible.
+     Warm sepia-tinted for aged paper feel. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    pointer-events: none;
+    background-image: theme('backgroundImage.noise');
+    background-size: 200px 200px;
+    opacity: var(--grain-opacity);
+    mix-blend-mode: multiply;
+    animation: grainShift 0.5s steps(4) infinite;
+    z-index: 9999;
+  }
+
+  /* Ambient light — pale gold pour from top-left,
+     warm amber glow bottom-right. "6:48am mountain room" */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        ellipse 80% 55% at 25% 5%,
+        rgba(196, 152, 44, 0.06) 0%,
+        rgba(196, 152, 44, 0.02) 40%,
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 60% 45% at 85% 90%,
+        rgba(139, 115, 85, 0.04) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse at center,
+        transparent 50%,
+        rgba(44, 36, 24, 0.06) 100%
+      );
+    opacity: var(--ambient-opacity);
+    z-index: 1;
+  }
+
+  /* ---- Typography defaults ---- */
+  /* Anton display — inherently bold, single weight. Tight leading + slight
+     positive tracking for that Vernon poster-machine character. */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display text-text-primary;
+    font-weight: 400;
+    text-wrap: balance;
+    text-transform: uppercase;
+    font-feature-settings: 'kern' on, 'liga' on;
+  }
+  h1 { letter-spacing: 0.02em; }
+  h2 { letter-spacing: 0.015em; }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Display emphasis — Anton has no italic or weight variation.
+     Instead we shift to gold accent + slightly wider tracking for contrast. */
+  .font-display em,
+  .font-display i,
+  em.font-display,
+  i.font-display {
+    font-style: normal;
+    font-weight: 400;
+    color: theme('colors.accent.gold');
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* Body italics keep Space Grotesk italic — retro-mech vibe */
+  body, p, li, span, blockquote {
+    font-feature-settings: 'kern' on, 'liga' on, 'ss01' on;
+  }
+
+  /* ---- Selection — pale gold, like highlighted in morning light ---- */
+  ::selection {
+    background: rgba(196, 152, 44, 0.22);
+    color: #2C2418;
+  }
+  ::-moz-selection {
+    background: rgba(196, 152, 44, 0.22);
+    color: #2C2418;
+  }
+
+  /* ---- Focus ring — warm amber halo ---- */
+  :focus {
+    outline: none;
+  }
+  :focus-visible {
+    outline: 2px solid rgba(139, 115, 85, 0.55);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  /* ---- Custom scrollbar ---- */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 999px;
+    border: 2px solid var(--scrollbar-track);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+  }
+  html {
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    scrollbar-width: thin;
+  }
+
+  /* ---- Image defaults ---- */
+  img {
+    /* Avoid layout shift; let aspect-ratio wrappers determine size */
+    max-width: 100%;
+    height: auto;
+    /* Prevents the dragged-out outline some browsers show */
+    -webkit-user-drag: none;
+  }
+
+  /* ---- Form normalize ---- */
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Inputs in forms — tabular figures for dates/amounts */
+  input[type='date'],
+  input[type='number'],
+  input[type='time'] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' on;
+  }
+
+  /* Date picker indicator — olive tint on cream */
+  input[type='date']::-webkit-calendar-picker-indicator {
+    filter: invert(0.32) sepia(0.4) hue-rotate(35deg) saturate(0.9);
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 200ms ease;
+  }
+  input[type='date']:hover::-webkit-calendar-picker-indicator {
+    opacity: 1;
+  }
+
+  /* ---- Reduced motion ---- */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* ---- Eyebrow label — retro-tech mono ---- */
+  .eyebrow {
+    @apply font-mono text-eyebrow uppercase text-accent;
+    font-weight: 700;
+  }
+  .eyebrow-muted {
+    @apply font-mono text-eyebrow uppercase text-text-secondary;
+    font-weight: 400;
+  }
+
+  /* ---- Cinematic image — warm amber color grade ---- */
+  .img-cinema {
+    @apply w-full h-full object-cover transition-[transform,filter] duration-1200 ease-silk;
+    filter: saturate(0.85) contrast(1.02) sepia(0.08) brightness(1.02);
+  }
+  .img-cinema-hover:hover .img-cinema,
+  .group:hover .img-cinema {
+    filter: saturate(1.0) contrast(1.06) sepia(0) brightness(1.0);
+  }
+
+  /* Lazy-load fade-in (used by ImageReveal) */
+  .img-fade {
+    opacity: 0;
+    transition: opacity 800ms theme('transitionTimingFunction.out-quart');
+  }
+  .img-fade.is-loaded {
+    opacity: 1;
+  }
+
+  /* Warm overlay over images — bark/amber wash for legibility */
+  .img-warm-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      transparent 35%,
+      rgba(44, 36, 24, 0.55) 100%);
+    pointer-events: none;
+  }
+
+  /* ---- Reveal-on-scroll — cinematic timings ---- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity var(--t-cinematic) var(--ease-organic),
+      transform var(--t-cinematic) var(--ease-wood);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal-up { transform: translateY(36px); }
+  .reveal-left { transform: translateX(-28px); }
+  .reveal-right { transform: translateX(28px); }
+  .reveal-scale { transform: scale(0.95); }
+  .reveal-blur {
+    transform: translateY(20px);
+    filter: blur(6px);
+  }
+  .reveal.is-visible.reveal-up,
+  .reveal.is-visible.reveal-left,
+  .reveal.is-visible.reveal-right,
+  .reveal.is-visible.reveal-scale {
+    transform: none;
+  }
+  .reveal.is-visible.reveal-blur {
+    transform: none;
+    filter: blur(0);
+  }
+
+  /* ---- Chapter marker — editorial seasonal label above section eyebrow ---- */
+  .chapter-marker {
+    display: flex;
+    align-items: center;
+    font-family: theme('fontFamily.mono');
+    font-size: 0.625rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    line-height: 1;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+  .chapter-prefix {
+    color: rgba(139, 115, 85, 0.5);
+  }
+  .chapter-sep {
+    color: rgba(139, 115, 85, 0.3);
+  }
+  .chapter-label {
+    color: rgba(196, 152, 44, 0.80);
+  }
+
+  /* ---- Skeleton — drifting morning mist that resolves into content ---- */
+  .skeleton {
+    position: relative;
+    background:
+      linear-gradient(90deg,
+        rgba(245,240,232,0.35) 0%,
+        rgba(245,240,232,0.75) 35%,
+        rgba(232,224,208,0.85) 50%,
+        rgba(245,240,232,0.75) 65%,
+        rgba(245,240,232,0.35) 100%);
+    background-size: 220% 100%;
+    animation: shimmer 3.2s ease-in-out infinite;
+    overflow: hidden;
+  }
+  .skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(245,240,232,0) 0%,
+      rgba(245,240,232,0.4) 50%,
+      rgba(245,240,232,0) 100%);
+    animation: fog-drift 6s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+  @keyframes fog-drift {
+    0%   { transform: translateX(-12%); opacity: 0.6; }
+    100% { transform: translateX(12%);  opacity: 0.9; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton, .skeleton::after { animation: none; }
+  }
+
+  /* ---- Altitude shift — cool→warm→dusk tint tied to scroll progress ---- */
+  .altitude-shift {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: soft-light;
+  }
+  .altitude-shift > div {
+    position: absolute;
+    inset: 0;
+    transition: opacity 200ms linear;
+  }
+  /* Cool morning mist — pale blue-green wash (top of doc) */
+  .altitude-cool {
+    background: linear-gradient(180deg,
+      rgba(180, 200, 210, 0.55) 0%,
+      rgba(200, 210, 200, 0.35) 60%,
+      transparent 100%);
+  }
+  /* Warm midday gold — base layer, always present */
+  .altitude-warm {
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(196, 152, 44, 0.18) 50%,
+      transparent 100%);
+    opacity: 0.7;
+  }
+  /* Dusk plum — appears in lower third */
+  .altitude-dusk {
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(95, 70, 100, 0.30) 60%,
+      rgba(60, 45, 75, 0.45) 100%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .altitude-cool, .altitude-dusk { opacity: 0 !important; }
+  }
+
+  /* ---- Route illustration ---- */
+  .route-map-frame {
+    border: 1px solid theme('colors.line.DEFAULT');
+    border-radius: theme('borderRadius.card');
+    overflow: hidden;
+    background: #F5F0E8;
+    box-shadow: theme('boxShadow.card');
+  }
+  .route-leg {
+    transition: background var(--t-normal) var(--ease-organic);
+  }
+  .route-leg:hover {
+    background: theme('colors.surface.elevated');
+  }
+
+  /* ---- Time-of-day tint — invisible-but-felt warmth shift ---- */
+  .time-tint {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: soft-light;
+    opacity: 0;
+    transition: opacity 1200ms ease, background 1200ms ease;
+    background: transparent;
+  }
+  /* Dawn — pale rose, just barely warm */
+  html[data-tod="dawn"]    .time-tint { opacity: 0.55; background: linear-gradient(180deg, rgba(220, 180, 160, 0.35), rgba(200, 175, 150, 0.15)); }
+  /* Morning — neutral cool, the design's native voice */
+  html[data-tod="morning"] .time-tint { opacity: 0.30; background: linear-gradient(180deg, rgba(200, 215, 220, 0.25), transparent); }
+  /* Midday — totally invisible */
+  html[data-tod="midday"]  .time-tint { opacity: 0; }
+  /* Golden hour — deepest warmth */
+  html[data-tod="golden"]  .time-tint { opacity: 0.70; background: linear-gradient(180deg, rgba(220, 150, 70, 0.30), rgba(180, 110, 50, 0.18)); }
+  /* Dusk — amber cooling toward indigo */
+  html[data-tod="dusk"]    .time-tint { opacity: 0.60; background: linear-gradient(180deg, rgba(180, 110, 80, 0.25), rgba(80, 75, 110, 0.30)); }
+  /* Night — cool indigo veil */
+  html[data-tod="night"]   .time-tint { opacity: 0.55; background: linear-gradient(180deg, rgba(70, 80, 110, 0.30), rgba(50, 55, 85, 0.40)); }
+
+  /* ---- Pine silhouettes — edge-of-viewport scroll parallax ---- */
+  .pine-silhouette {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: clamp(40px, 6vw, 90px);
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+    color: rgba(61, 79, 47, 0.18); /* accent.pine at low opacity */
+    mix-blend-mode: multiply;
+  }
+  .pine-silhouette--left  { left: 0; }
+  .pine-silhouette--right { right: 0; color: rgba(61, 79, 47, 0.13); }
+  .pine-silhouette svg {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 200vh;
+    will-change: transform;
+  }
+  /* On narrow screens, tuck them out — too cramped */
+  @media (max-width: 768px) {
+    .pine-silhouette { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pine-silhouette svg { transform: none !important; }
+  }
+
+  /* ---- Hairline divider — used between sections ---- */
+  .hairline {
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      theme('colors.line.strong') 20%,
+      theme('colors.line.strong') 80%,
+      transparent 100%);
+  }
+
+  /* ---- Underline link with reveal-from-left ---- */
+  .link-line {
+    @apply relative inline-flex items-center gap-2 text-text-primary;
+    transition: color var(--t-normal) var(--ease-organic);
+  }
+  .link-line::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px;
+    height: 1px;
+    background: currentColor;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform var(--t-normal) var(--ease-wood);
+  }
+  .link-line:hover {
+    color: #8B7355;
+  }
+  .link-line:hover::after {
+    transform-origin: left;
+    transform: scaleX(1);
+  }
+
+  /* ---- Magnetic hover container (subtle 3D tilt) ---- */
+  .tilt {
+    transform-style: preserve-3d;
+    transition: transform 600ms theme('transitionTimingFunction.out-quart');
+  }
+  .tilt-inner {
+    transform: translateZ(0);
+    transition: transform 600ms theme('transitionTimingFunction.out-quart');
+  }
+
+  /* ============================================================
+     KINETIC TYPOGRAPHY — SplitText character mask reveal
+     ============================================================ */
+  .split-root {
+    /* Mask each line so chars rise from below */
+    line-height: 1.04;
+  }
+  .split-word {
+    overflow: hidden;
+    /* Without overflow-hidden, the mask reveal doesn't read */
+    padding-bottom: 0.04em;
+  }
+  .split-char {
+    display: inline-block;
+    transform: translateY(115%) rotate(2.5deg);
+    opacity: 0;
+    transition-property: transform, opacity;
+    transition-timing-function: var(--ease-silk);
+  }
+  .split-root.is-revealed .split-char {
+    transform: translateY(0) rotate(0);
+    opacity: 1;
+  }
+
+  /* ============================================================
+     KINETIC TYPOGRAPHY — BlurText mist reveal
+     ============================================================ */
+  .blur-word {
+    filter: blur(16px);
+    opacity: 0;
+    transform: scale(1.08) translateY(4px);
+    transition-property: filter, opacity, transform;
+    transition-timing-function: var(--ease-organic);
+  }
+  .blur-root.is-revealed .blur-word {
+    filter: blur(0);
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+  /* ============================================================
+     MARQUEE — infinite scrolling ticker
+     ============================================================ */
+  .marquee {
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+    gap: 0;
+  }
+  .marquee-track {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    padding-right: 3rem;
+    animation: marquee-scroll 32s linear infinite;
+    will-change: transform;
+  }
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+  .marquee-track--reverse {
+    animation-direction: reverse;
+  }
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ============================================================
+     PAGE TRANSITION OVERLAY
+     ============================================================ */
+  .page-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    background: #2C2418;
+    transform-origin: bottom;
+    pointer-events: none;
+  }
+  .page-transition--enter {
+    animation: pt-enter 800ms var(--ease-mountain) forwards;
+  }
+  .page-transition--exit {
+    animation: pt-exit 800ms var(--ease-mountain) forwards;
+  }
+  @keyframes pt-enter {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+  }
+  @keyframes pt-exit {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-100%); }
+  }
+
+  /* ============================================================
+     CUSTOM CURSOR
+     ============================================================ */
+  .cursor-dot,
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    border-radius: 9999px;
+    will-change: transform;
+    mix-blend-mode: difference;
+  }
+  .cursor-dot {
+    width: 5px;
+    height: 5px;
+    background: #F5F0E8;
+    transform: translate3d(-50%, -50%, 0);
+    transition: opacity var(--t-fast) ease, width var(--t-fast) ease, height var(--t-fast) ease;
+  }
+  .cursor-ring {
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(245, 240, 232, 0.80);
+    transform: translate3d(-50%, -50%, 0);
+    transition:
+      width var(--t-normal) var(--ease-silk),
+      height var(--t-normal) var(--ease-silk),
+      border-color var(--t-fast) ease,
+      background-color var(--t-fast) ease,
+      opacity var(--t-fast) ease;
+  }
+  .cursor-ring.is-hover {
+    width: 60px;
+    height: 60px;
+    background: rgba(245, 240, 232, 0.06);
+    border-color: rgba(245, 240, 232, 0.55);
+  }
+  .cursor-ring.is-text {
+    width: 14px;
+    height: 14px;
+    background: rgba(245, 240, 232, 0.90);
+    border-color: transparent;
+  }
+  .cursor-ring.is-clicking {
+    width: 26px;
+    height: 26px;
+  }
+  .cursor-hide .cursor-dot,
+  .cursor-hide .cursor-ring,
+  html.is-loading .cursor-dot,
+  html.is-loading .cursor-ring {
+    opacity: 0;
+  }
+
+  /* ============================================================
+     LOADER (initial paint curtain)
+     ============================================================ */
+  .loader-curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #2C2418;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    will-change: clip-path, transform;
+  }
+  .loader-curtain--exit {
+    animation: loader-peel 1100ms var(--ease-mountain) forwards;
+  }
+  @keyframes loader-peel {
+    0%   { clip-path: inset(0 0 0 0); }
+    100% { clip-path: inset(0 0 100% 0); }
+  }
+
+  /* ── Soul orb ────────────────────────────────────────────────────────────── */
+  @keyframes soul-breathe {
+    0%, 100% { transform: scale(1);    opacity: 0.55; }
+    50%       { transform: scale(1.18); opacity: 0.85; }
+  }
+  @keyframes soul-ring-pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(196,152,44,0.0), 0 0 12px 4px rgba(196,152,44,0.22);
+      background: rgba(196,152,44,0.18);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(196,152,44,0.06), 0 0 22px 10px rgba(196,152,44,0.32);
+      background: rgba(196,152,44,0.30);
+    }
+  }
+  /* Impact = soul arriving in new body: expands out of nothing, snaps to size */
+  @keyframes soul-impact {
+    0%   { transform: scale(4);   opacity: 0;    filter: blur(8px);  background: #fff8e0; }
+    25%  { transform: scale(0.7); opacity: 1;    filter: blur(0px);  background: #C4982C; }
+    55%  { transform: scale(1.35);              background: #e0b840; }
+    80%  { transform: scale(0.92); }
+    100% { transform: scale(1);                 background: #C4982C; }
+  }
+
+  .soul-aura {
+    background: radial-gradient(circle, rgba(196,152,44,0.18) 0%, transparent 70%);
+    animation: soul-breathe 2.6s ease-in-out infinite;
+  }
+  .soul-ring {
+    animation: soul-ring-pulse 2.2s ease-in-out infinite;
+    border-radius: 9999px;
+  }
+  .soul-core {
+    background: #C4982C;
+    box-shadow: 0 0 10px 3px rgba(196,152,44,0.55);
+    animation: soul-impact 0.85s cubic-bezier(0.34,1.4,0.64,1) forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .soul-aura, .soul-ring, .soul-core { animation: none; }
+  }
+
+  .loader-mark {
+    display: inline-flex;
+    align-items: baseline;
+    font-family: theme('fontFamily.display');
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #F5F0E8;
+    letter-spacing: 0.08em;
+    overflow: hidden;
+  }
+  .loader-mark span {
+    display: inline-block;
+    transform: translateY(110%);
+    opacity: 0;
+    transition: transform 900ms var(--ease-silk),
+                opacity 900ms var(--ease-silk);
+  }
+  .loader-mark.is-revealed span {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .loader-progress {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: theme('fontFamily.body');
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(245, 240, 232, 0.45);
+    font-variant-numeric: tabular-nums;
+  }
+  .loader-progress::before {
+    content: '';
+    display: block;
+    width: 220px;
+    height: 1px;
+    background: rgba(245, 240, 232, 0.12);
+    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ============================================================
+     PARALLAX — applied via inline transform on scroll
+     ============================================================ */
+  [data-parallax] {
+    will-change: transform;
+  }
+
+  /* ============================================================
+     IMAGE CLIP-PATH REVEAL — for ImageReveal in cinema mode
+     ============================================================ */
+  .clip-reveal {
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 1400ms cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  .clip-reveal.is-revealed {
+    clip-path: inset(0 0 0 0);
+  }
+
+  /* ============================================================
+     KINETIC BUTTON LABEL — hover swap
+     ============================================================ */
+  .kinetic-label {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    line-height: 1.1;
+  }
+  .kinetic-label > span {
+    display: inline-block;
+    transition: transform var(--t-normal) var(--ease-mountain);
+  }
+  .kinetic-label > span:nth-child(2) {
+    position: absolute;
+    inset: 0;
+    transform: translateY(110%);
+  }
+  .kinetic-host:hover .kinetic-label > span:nth-child(1) {
+    transform: translateY(-110%);
+  }
+  .kinetic-host:hover .kinetic-label > span:nth-child(2) {
+    transform: translateY(0);
+  }
+
+  /* ============================================================
+     HERO — light-on-dark overrides for cinematic photo backdrop
+     ============================================================ */
+  .hero-headline {
+    color: #F5F0E8;
+    text-shadow: 0 2px 20px rgba(28, 22, 14, 0.3);
+  }
+  .hero-accent-text {
+    color: rgba(210, 185, 140, 0.95);
+  }
+  .hero-underline {
+    background: rgba(196, 152, 44, 0.55);
+  }
+  .hero-eyebrow {
+    color: rgba(210, 185, 140, 0.75);
+  }
+  .hero-eyebrow-rule {
+    background: rgba(210, 185, 140, 0.45);
+  }
+  .hero-coords {
+    color: rgba(210, 185, 140, 0.55);
+  }
+  .hero-coords-pin {
+    color: rgba(196, 152, 44, 0.85);
+    font-size: 0.6em;
+    transform: translateY(-1px);
+  }
+  .hero-coords-dot {
+    color: rgba(210, 185, 140, 0.35);
+  }
+  .hero-coords-elev {
+    color: rgba(196, 152, 44, 0.85);
+  }
+  .hero-weather {
+    color: rgba(210, 185, 140, 0.45);
+  }
+  .hero-weather-temp {
+    color: rgba(210, 185, 140, 0.80);
+  }
+  .hero-weather-cond {
+    color: rgba(210, 185, 140, 0.60);
+    font-style: italic;
+  }
+  .hero-tagline {
+    color: rgb(210, 185, 140);
+  }
+  .hero-lead {
+    color: rgba(237, 230, 218, 0.78);
+  }
+  .hero-micro-trust {
+    color: rgba(210, 185, 140, 0.5);
+  }
+  .hero-scroll-cue {
+    color: rgba(210, 185, 140, 0.45);
+  }
+  .hero-scroll-line {
+    background: rgba(210, 185, 140, 0.3);
+  }
+  .hero-trust-row {
+    border-top: 1px solid rgba(210, 185, 140, 0.15);
+  }
+  .hero-trust-value {
+    color: #F5F0E8;
+  }
+  .hero-trust-label {
+    color: rgba(210, 185, 140, 0.55);
+  }
+
+  /* Ghost button override for dark hero context */
+  .hero-ghost-btn {
+    color: rgba(237, 230, 218, 0.9) !important;
+    border-color: rgba(210, 185, 140, 0.35) !important;
+    background: transparent !important;
+  }
+  .hero-ghost-btn:hover,
+  .hero-ghost-btn:focus-visible,
+  .hero-ghost-btn:active {
+    background: #3D4F2F !important; /* Deep Pine / Olive Green */
+    border-color: #3D4F2F !important;
+    color: #ffffff !important;
+  }
+}
+
+@layer utilities {
+  /* Text-wrap utilities */
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  /* Number-tabular */
+  .tabular-nums { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum' on; }
+
+  /* Hide scrollbar utility */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+
+  /* Anchor offset so in-page links don't hide under the navbar */
+  .scroll-mt-nav { scroll-margin-top: calc(var(--nav-height) + 1.5rem); }
+
+  /* Page top padding — pushes content below fixed navbar */
+  .pt-nav { padding-top: calc(var(--nav-height) + 2rem); }
+
+  /* ============================================================
+     EDITORIAL DEPTH — drop caps, sequence numerals, ornaments
+     ============================================================ */
+
+  /* Drop cap — first letter of paragraph rendered as a printed
+     initial, like a book chapter opening. */
+  .dropcap::first-letter {
+    font-family: theme('fontFamily.display');
+    font-weight: 400;
+    font-style: normal;
+    text-transform: uppercase;
+    color: theme('colors.accent.gold');
+    float: left;
+    font-size: 4em;
+    line-height: 0.85;
+    padding: 0.18em 0.12em 0 0;
+    margin-top: 0.06em;
+  }
+
+  /* Card double-stroke — second hairline inside the border,
+     creating a museum-print "matted frame" depth.
+     Uses ::after so it doesn't collide with Card's ::before highlight. */
+  .card-frame {
+    position: relative;
+  }
+  .card-frame::after {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(44, 36, 24, 0.04);
+    border-radius: calc(theme('borderRadius.card') - 4px);
+    pointer-events: none;
+    z-index: 2;
+    transition: border-color var(--t-normal) var(--ease-organic);
+  }
+  .card-frame:hover::after {
+    border-color: rgba(139, 115, 85, 0.15);
+  }
+
+  /* Sequence numeral — hand-set folio mark, e.g. "01" on cards.
+     Uses display serif italic with a subtle olive tint. */
+  .folio {
+    font-family: theme('fontFamily.mono');
+    font-style: normal;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: theme('colors.accent.gold');
+    opacity: 0.7;
+    font-feature-settings: 'tnum' on;
+  }
+  .folio-lg {
+    font-family: theme('fontFamily.mono');
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.125rem;
+    letter-spacing: 0.08em;
+    color: theme('colors.accent.gold');
+    opacity: 0.85;
+  }
+
+  /* Chapter numeral — Roman numeral above SectionHeader eyebrow.
+     Reads as "I.", "II.", "III." — magazine sequencing. */
+  .chapter-num {
+    font-family: theme('fontFamily.mono');
+    font-style: normal;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    color: theme('colors.accent.gold');
+    opacity: 0.85;
+    font-feature-settings: 'tnum' on;
+  }
+
+  /* Pull quote — oversized italic display text, mark on left.
+     Used inside long-form sections to break visual rhythm. */
+  .pull-quote {
+    font-family: theme('fontFamily.display');
+    font-style: normal;
+    font-weight: 600;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    line-height: 1.3;
+    color: theme('colors.text.primary');
+    text-wrap: balance;
+    position: relative;
+    padding-left: 1.4rem;
+    border-left: 2px solid theme('colors.accent.DEFAULT');
+  }
+  .pull-quote::before {
+    content: '\201C';
+    position: absolute;
+    left: -0.05em;
+    top: -0.5em;
+    font-size: 3em;
+    color: theme('colors.accent.DEFAULT');
+    opacity: 0.18;
+    line-height: 1;
+    font-family: theme('fontFamily.display');
+  }
+
+  /* Section accent rule — drawn-line variant of hairline,
+     can be combined with .chapter-num */
+  .rule-accent {
+    display: inline-block;
+    width: 2.5rem;
+    height: 1px;
+    background: theme('colors.accent.DEFAULT');
+    vertical-align: middle;
+  }
+  .rule-accent--long { width: 4rem; }
+
+  /* Ornament divider — soft fade-in/out hairlines with a
+     central glyph. Pure CSS, no SVG required. */
+  .ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    color: theme('colors.accent.DEFAULT');
+    opacity: 0.55;
+  }
+  .ornament::before,
+  .ornament::after {
+    content: '';
+    flex: 1 1 auto;
+    max-width: 8rem;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      theme('colors.line.strong') 50%,
+      transparent
+    );
+  }
+  .ornament-glyph {
+    display: inline-block;
+    font-family: theme('fontFamily.mono');
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1;
+    transform: translateY(-1px);
+  }
+}
+
+/* ============================================================
+   ACCESSIBILITY + PERFORMANCE
+   ============================================================ */
+
+/* Respect prefers-reduced-motion: disable continuous animations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fog-drift,
+  .animate-fog-drift-reverse,
+  .animate-slow-zoom,
+  .animate-ambient-pulse,
+  .animate-float,
+  .animate-grain-shift {
+    animation: none !important;
+  }
+  body::before {
+    animation: none;
+  }
+  .reveal {
+    transition-duration: 200ms;
+  }
+}
+
+/* Touch / low-power: suppress fog for battery */
+@media (pointer: coarse) {
+  .animate-fog-drift,
+  .animate-fog-drift-reverse {
+    animation: none !important;
+  }
+}
+
+/* GPU promote fog layers */
+.animate-fog-drift,
+.animate-fog-drift-reverse {
+  will-change: transform;
+  backface-visibility: hidden;
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Satkar Hotel, Bakery & Cafe",
+  "short_name": "Satkar",
+  "description": "Warm rooms, honest food, and a bakery the town wakes up to. Dipayal, Doti, Nepal.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F2EDE2",
+  "theme_color": "#F2EDE2",
+  "lang": "en-NP",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,293 @@
+
+/* Satkar Warm Hill-Town Redesign */
+
+:root {
+  /* Core Colors */
+  --color-bg-primary: #1B1612; /* Deep warm mountain dusk */
+  --color-bg-secondary: #241D17; /* Warm charcoal-brown */
+  --color-bg-tertiary: #2D251F; 
+  --color-bg-light: #F7F0E6; /* Warm cream */
+
+  /* Text Colors */
+  --color-text-primary: #F5EBDD; /* Soft cream */
+  --color-text-secondary: #B8A895; /* Muted beige */
+  --color-text-muted: rgba(184, 168, 149, 0.5);
+  --color-text-inverse: #1B1612;
+
+  /* Accents */
+  --color-accent: #B87935; /* Copper amber */
+  --color-accent-light: #D99A4E; /* Bakery amber */
+  --color-accent-earth: #9E4F32; /* Terracotta */
+  --color-accent-nature: #6F7D5C; /* Muted sage */
+
+  /* Borders */
+  --color-border: rgba(245, 235, 221, 0.08);
+  --color-border-strong: rgba(245, 235, 221, 0.15);
+
+  /* Fonts */
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'DM Sans', sans-serif;
+  
+  /* Overrides for Tailwind classes */
+  --bone-100: #1B1612;
+  --bone-200: #241D17;
+  --charcoal-800: #F5EBDD;
+  --charcoal-900: #F5EBDD;
+  --taupe-500: #B87935;
+  --taupe-600: #D99A4E;
+}
+
+body {
+  background-color: var(--color-bg-primary) !important;
+  color: var(--color-text-primary) !important;
+  font-family: var(--font-body) !important;
+}
+
+/* Typography Hierarchy */
+h1, .hero-scene h1 {
+  font-family: var(--font-display) !important;
+  font-size: clamp(3.5rem, 8vw, 10rem) !important;
+  font-weight: 400 !important;
+  color: var(--color-text-primary) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.02em !important;
+}
+h2 {
+  font-family: var(--font-display) !important;
+  font-size: clamp(2.5rem, 5vw, 5rem) !important;
+  font-weight: 300 !important;
+  color: var(--color-text-primary) !important;
+  line-height: 1.1 !important;
+}
+h3, h4 {
+  font-family: var(--font-display) !important;
+  font-weight: 400 !important;
+}
+p {
+  font-family: var(--font-body) !important;
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  color: var(--color-text-secondary) !important;
+  font-weight: 300 !important;
+}
+
+/* Overrides for layout & utilities */
+.light-section {
+  background-color: var(--color-bg-light) !important;
+  color: var(--color-text-inverse) !important;
+}
+.light-section h1, .light-section h2, .light-section p {
+  color: var(--color-text-inverse) !important;
+}
+
+/* Glass Navbar */
+nav, header {
+  height: 72px !important;
+  background: transparent !important;
+  border-bottom: 1px solid rgba(245, 235, 221, 0.05) !important;
+  transition: all 0.3s ease;
+}
+
+/* Review Section - bg-bg-inverse class */
+.bg-bg-inverse {
+  background-color: var(--color-bg-secondary) !important;
+}
+
+.bg-bg-inverse .text-white,
+.bg-bg-inverse [class*="text-white"] {
+  color: var(--color-text-primary) !important;
+}
+
+.bg-bg-inverse .text-white\/60,
+.bg-bg-inverse .text-white\/90 {
+  color: var(--color-text-secondary) !important;
+}
+
+/* Testimonial cards styling */
+.bg-bg-inverse .bg-white\/5,
+.bg-bg-inverse [class*="bg-white\/"] {
+  background-color: rgba(245, 235, 221, 0.08) !important;
+  border-color: rgba(245, 235, 221, 0.15) !important;
+}
+
+.bg-bg-inverse .border-white\/10 {
+  border-color: rgba(245, 235, 221, 0.15) !important;
+}
+
+/* Text accent color for ratings and highlights */
+.text-accent,
+[class*="text-accent"] {
+  color: var(--color-accent) !important;
+}
+
+.font-display.text-2xl {
+  font-family: var(--font-display) !important;
+  font-size: 1.8rem !important;
+  font-weight: 500 !important;
+  color: var(--color-text-primary) !important;
+  letter-spacing: 0.1em !important;
+  text-transform: none !important;
+}
+
+/* Premium Buttons — aligned with inline unified system */
+.btn-primary {
+  background: var(--color-accent) !important;
+  border: 1px solid var(--color-accent) !important;
+  color: #1B1612 !important;
+  padding: 14px 36px !important;
+  font-family: var(--font-body) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.2em !important;
+  text-transform: uppercase !important;
+  font-weight: 500 !important;
+  border-radius: 4px !important;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+.btn-primary:hover {
+  background: var(--color-accent-light) !important;
+  border-color: var(--color-accent-light) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(184, 121, 53, 0.25) !important;
+}
+
+.btn-ghost {
+  background: transparent !important;
+  border: 1px solid rgba(240, 235, 227, 0.2) !important;
+  color: var(--color-text-primary) !important;
+  padding: 14px 36px !important;
+  font-family: var(--font-body) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.2em !important;
+  text-transform: uppercase !important;
+  font-weight: 400 !important;
+  border-radius: 4px !important;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+.btn-ghost:hover {
+  border-color: var(--color-accent) !important;
+  color: var(--color-accent) !important;
+}
+
+/* Soft, warm edges */
+img {
+  border-radius: 6px !important;
+}
+
+/* Hero Section Refinement */
+.hero-scene {
+  background: var(--color-bg-primary) !important;
+  padding-top: 72px !important; /* account for nav */
+}
+.hero-scene > div:first-child {
+  justify-content: center !important;
+  padding: 5vw !important;
+}
+.eyebrow-label {
+  font-family: var(--font-body) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.25em !important;
+  color: var(--color-accent) !important;
+  text-transform: uppercase !important;
+  position: relative !important;
+  display: block !important;
+  margin-bottom: 2rem !important;
+  top: 0 !important; left: 0 !important;
+}
+
+/* ========================================
+   CINEMATIC HERO
+   ======================================== */
+.hero-cinema {
+  background: #0a0806 !important;
+  padding-top: 0 !important;
+}
+
+.hero-cinema-bg {
+  will-change: transform;
+}
+
+.hero-cinema-bg img {
+  border-radius: 0 !important;
+  transform: scale(1.15);
+  filter: brightness(0.85) saturate(0.9);
+  transition: opacity 1.5s ease-in-out, transform 0.1s linear;
+}
+
+.hero-cinema-bg .hero-slide {
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+
+.hero-cinema-bg .hero-slide.active {
+  opacity: 1;
+}
+
+.hero-cinema-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(27, 22, 18, 0.45) 0%,
+    rgba(27, 22, 18, 0.30) 35%,
+    rgba(27, 22, 18, 0.45) 65%,
+    rgba(27, 22, 18, 0.80) 100%
+  );
+  pointer-events: none;
+}
+
+.hero-cinema-content {
+  padding-top: 100px;
+  padding-bottom: 40px;
+}
+
+.hero-cinema h1,
+.hero-cinema .hero-headline {
+  font-family: var(--font-display) !important;
+  font-size: clamp(2.5rem, 5.5vw, 4.5rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.01em !important;
+  color: var(--color-text-primary) !important;
+}
+
+.hero-cinema .hero-subhead {
+  color: rgba(245, 235, 221, 0.65) !important;
+}
+
+.hero-trust-line {
+  font-family: var(--font-body) !important;
+  font-weight: 300 !important;
+  text-transform: none !important;
+  letter-spacing: 0.12em !important;
+  color: rgba(184, 168, 149, 0.55) !important;
+  border-top: 1px solid rgba(245, 235, 221, 0.08);
+  padding-top: 1.25rem;
+  display: inline-block;
+}
+
+/* Subtle fade-in for the cinematic hero */
+@keyframes hero-cinema-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.hero-cinema-bg img {
+  animation: hero-cinema-fade 1.8s ease-out both;
+}
+.hero-cinema-overlay {
+  animation: hero-cinema-fade 2.2s ease-out both;
+}
+
+/* Footer Reset */
+footer {
+  background: var(--color-bg-secondary) !important;
+  border-top: 1px solid var(--color-border) !important;
+}
+
+/* Desktop nav links - cream color */
+nav a, header a, [role="navigation"] a, .navbar a {
+  color: var(--color-text-primary) !important;
+}
+
+/* Desktop Book Now button - black text on accent background */
+nav a[href*="contact"]:not(#mobile-menu a), 
+nav .btn-primary {
+  color: #1B1612 !important;
+}
