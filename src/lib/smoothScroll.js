@@ -13,7 +13,9 @@ export function initSmoothScroll() {
 
   // Respect reduced motion — skip smooth scroll entirely
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (prefersReduced) return null
+  // Disable Lenis on mobile/touch screens to let native 120Hz scrolling take over
+  const isTouch = window.matchMedia('(pointer: coarse), (max-width: 1024px)').matches
+  if (prefersReduced || isTouch) return null
 
   lenisInstance = new Lenis({
     duration: 1.15,

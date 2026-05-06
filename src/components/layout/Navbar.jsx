@@ -57,8 +57,8 @@ export default function Navbar() {
         'fixed top-0 inset-x-0 z-50',
         'transition-[background-color,backdrop-filter,border-color,box-shadow] duration-600 ease-silk',
         scrolled || open
-          ? 'bg-bg-primary/60 backdrop-blur-3xl backdrop-saturate-[1.2] border-b border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.2)]'
-          : 'bg-bg-primary/30 backdrop-blur-xl border-b border-white/5'
+          ? 'bg-bg-primary/80 md:bg-bg-primary/60 backdrop-blur-md md:backdrop-blur-3xl md:backdrop-saturate-[1.2] border-b border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.2)]'
+          : 'bg-bg-primary/50 md:bg-bg-primary/30 backdrop-blur-sm md:backdrop-blur-xl border-b border-white/5'
       )}
     >
       <div className="mx-auto max-w-content px-gutter h-[78px] lg:h-[88px] grid grid-cols-[auto_1fr_auto] items-center gap-4">
@@ -177,7 +177,7 @@ export default function Navbar() {
         )}
       >
         <div
-          className="px-gutter pt-4 bg-bg-primary/70 backdrop-blur-3xl backdrop-saturate-[1.2] border-t border-white/5"
+          className="px-gutter pt-4 bg-bg-primary/90 backdrop-blur-md border-t border-white/5"
           style={{ paddingBottom: 'max(3rem, env(safe-area-inset-bottom))' }}
         >
           <ul className="flex flex-col">

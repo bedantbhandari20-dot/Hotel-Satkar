@@ -52,7 +52,7 @@ export default function BookingBar() {
       aria-hidden={!sticky}
       className={cn(
         'hidden md:block fixed left-0 right-0 z-40',
-        'bg-bg-primary/96 backdrop-blur-2xl border-b border-line',
+        'bg-bg-primary/98 md:bg-bg-primary/96 backdrop-blur-sm md:backdrop-blur-2xl border-b border-line',
         'shadow-[0_4px_24px_rgba(44,36,24,0.06)]',
         'transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)]',
         sticky
@@ -129,7 +129,7 @@ export default function BookingBar() {
       aria-hidden={!sticky}
       className={cn(
         'md:hidden fixed left-0 right-0 z-40',
-        'bg-bg-inverse/95 backdrop-blur-xl border-t border-white/10',
+        'bg-bg-inverse/98 backdrop-blur-sm border-t border-white/10',
         'transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)]',
         sticky
           ? 'opacity-100 translate-y-0 pointer-events-auto'

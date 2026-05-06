@@ -236,6 +236,29 @@
       scroll-behavior: auto !important;
     }
   }
+
+  /* ---- Mobile 120fps performance ---- */
+  @media (max-width: 1023px) {
+    /* Disable the expensive film grain animation — biggest GPU win on mobile */
+    body::before {
+      animation: none;
+      display: none;
+    }
+    /* Simplify the ambient overlay — two radial gradients is enough */
+    body::after {
+      display: none;
+    }
+    /* Native momentum scrolling for full 120Hz feel */
+    html, body {
+      -webkit-overflow-scrolling: touch;
+      overflow-x: hidden;
+    }
+    /* Promote key elements to their own GPU layer */
+    .cursor-dot,
+    .cursor-ring {
+      display: none;
+    }
+  }
 }
 
 @layer components {

@@ -21,4 +21,11 @@ export function useMediaQuery(query) {
 
 export const useReducedMotion = () =>
   useMediaQuery('(prefers-reduced-motion: reduce)')
-export const useIsTouch = () => !useMediaQuery('(hover: hover) and (pointer: fine)')
+
+export const useIsTouch = () => {
+  const isCoarse = useMediaQuery('(pointer: coarse)')
+  const hasNoHover = useMediaQuery('(hover: none)')
+  const isMobileWidth = useMediaQuery('(max-width: 1024px)')
+  // Catch powerful phones (like S23 Ultra) even if they report fine pointer due to stylus
+  return isCoarse || hasNoHover || isMobileWidth
+}

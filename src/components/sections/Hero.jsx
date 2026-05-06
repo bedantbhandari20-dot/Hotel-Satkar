@@ -6,7 +6,7 @@ import BlurText from '../effects/BlurText.jsx'
 import Counter from '../effects/Counter.jsx'
 import { site, whatsappLink } from '../../data/site.js'
 import { ratingMeta } from '../../data/reviews.js'
-import { useReducedMotion } from '../../hooks/useMediaQuery.js'
+import { useReducedMotion, useIsTouch } from '../../hooks/useMediaQuery.js'
 import AmbientParticles from '../effects/AmbientParticles.jsx'
 import WeatherWidget from '../effects/WeatherWidget.jsx'
 
@@ -15,6 +15,7 @@ export default function Hero() {
   const cueRef = useRef(null)
   const [start, setStart] = useState(false)
   const prefersReduced = useReducedMotion()
+  const isTouch = useIsTouch()
 
   // Begin choreography after Loader finishes (or immediately if returning user)
   useEffect(() => {
@@ -28,25 +29,20 @@ export default function Hero() {
     }
   }, [prefersReduced])
 
-  // Hero backdrop parallax + scroll-fade for cue
+  // Hero backdrop parallax + scroll-fade for cue (desktop only)
   useEffect(() => {
-    if (prefersReduced) return
+    if (prefersReduced || isTouch) return
     let raf
     const update = () => {
       const el = bgRef.current
       const cue = cueRef.current
       const y = window.scrollY
       if (el) {
-        // Cinematic Ken Burns: Image scales up and shifts down slightly as you scroll
         const scale = 1 + y * 0.00015
         const yOffset = y * 0.15
-        
-        // Transform is hardware accelerated. 
-        // We removed the desktop check because scaling up prevents background reveal.
         el.style.transform = `translate3d(0, ${yOffset.toFixed(2)}px, 0) scale(${scale.toFixed(4)})`
       }
       if (cue) {
-        // Fade cue out across first 400px of scroll
         const fadeOut = Math.max(0, 1 - y / 400)
         cue.style.opacity = fadeOut.toFixed(3)
         cue.style.transform = `translate(-50%, ${(y * 0.2).toFixed(2)}px)`
@@ -55,7 +51,7 @@ export default function Hero() {
     }
     raf = requestAnimationFrame(update)
     return () => cancelAnimationFrame(raf)
-  }, [prefersReduced])
+  }, [prefersReduced, isTouch])
 
   return (
     <section className="relative isolate min-h-[100svh] flex items-end overflow-hidden" style={{ background: '#E8E0D2' }}>
@@ -90,7 +86,7 @@ export default function Hero() {
       <AmbientParticles count={24} color="210, 185, 140" opacity={0.15} speed={0.4} area="hero" />
 
       {/* ===== MORNING FOG — two counter-drifting veils behind the headline ===== */}
-      {!prefersReduced && (
+      {!prefersReduced && !isTouch && (
         <>
           {/* Primary veil — wide, crests around headline height, 25s drift */}
           <div
