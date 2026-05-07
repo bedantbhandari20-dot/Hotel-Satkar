@@ -137,36 +137,3 @@ export default function BookingBar() {
 </>
   )
 }
-
-/**
- * One booking field — gold dot + eyebrow + icon + input.
- * Bottom border lights up gold on focus-within.
- */
-function Field({ label, icon: Icon, hint, children }) {
-  return (
-    <label
-      className={cn(
-        'group relative block bg-bg-primary px-6 py-5 cursor-text',
-        'transition-colors duration-350',
-        'focus-within:bg-surface-elevated',
-        // Gold underline on focus
-        'after:absolute after:inset-x-5 after:bottom-0 after:h-px after:bg-accent',
-        'after:scale-x-0 after:origin-left after:transition-transform after:duration-450 after:ease-organic',
-        'focus-within:after:scale-x-100'
-      )}
-    >
-      <span className="flex items-center justify-between mb-2">
-        <span className="inline-flex items-center gap-2 eyebrow-muted">
-          <Icon size={11} strokeWidth={1.5} className="text-accent" />
-          {label}
-        </span>
-        {hint && (
-          <span className="font-body text-[10px] uppercase tracking-[0.18em] text-text-tertiary tabular-nums">
-            {hint}
-          </span>
-        )}
-      </span>
-      {children}
-    </label>
-  )
-}
