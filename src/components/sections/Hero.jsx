@@ -8,7 +8,6 @@ import { site, whatsappLink } from '../../data/site.js'
 import { ratingMeta } from '../../data/reviews.js'
 import { useReducedMotion, useIsTouch } from '../../hooks/useMediaQuery.js'
 import AmbientParticles from '../effects/AmbientParticles.jsx'
-import WeatherWidget from '../effects/WeatherWidget.jsx'
 
 export default function Hero() {
   const bgRef = useRef(null)
@@ -123,12 +122,7 @@ export default function Hero() {
               transitionDelay: '300ms',
             }}
           >
-            <span className="hero-eyebrow inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.35em]">
-              <span className="hero-eyebrow-rule block w-8 h-px" />
-              Dipayal, Doti — Nepal
-            </span>
-            <WeatherWidget />
-            <span className="hero-coords mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[10px] uppercase tracking-[0.3em]">
+            <span className="hero-coords flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[10px] uppercase tracking-[0.3em]">
               <span className="hero-coords-pin" aria-hidden>◆</span>
               <span>29.26°N</span>
               <span className="hero-coords-dot" aria-hidden>·</span>
@@ -293,3 +287,4 @@ function TrustCell({ value, label }) {
     </div>
   )
 }
+
