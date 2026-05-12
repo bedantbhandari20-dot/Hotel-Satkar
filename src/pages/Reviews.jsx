@@ -73,7 +73,6 @@ export default function Reviews() {
       <Section tone="primary">
         <SectionHeader
           rule
-          chapter={5}
           eyebrow="Reviews"
           title="What guests actually say."
           align="center"

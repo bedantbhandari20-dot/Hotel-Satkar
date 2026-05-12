@@ -11,6 +11,7 @@ import AltitudeShift from './components/effects/AltitudeShift.jsx'
 import TimeOfDay from './components/effects/TimeOfDay.jsx'
 import Home from './pages/Home.jsx'
 import Rooms from './pages/Rooms.jsx'
+import RoomDetail from './pages/RoomDetail.jsx'
 import Gallery from './pages/Gallery.jsx'
 import About from './pages/About.jsx'
 import Contact from './pages/Contact.jsx'
@@ -68,6 +69,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/rooms" element={<Rooms />} />
+          <Route path="/rooms/:slug" element={<RoomDetail />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />

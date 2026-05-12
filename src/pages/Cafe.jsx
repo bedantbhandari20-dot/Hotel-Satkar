@@ -91,7 +91,6 @@ export default function Cafe() {
       <Section tone="primary">
         <SectionHeader
           rule
-          chapter={3}
           eyebrow="Menu"
           title="What we make."
           description="A short, honest menu. Bakery from dawn, cafe through the day, restaurant from noon."

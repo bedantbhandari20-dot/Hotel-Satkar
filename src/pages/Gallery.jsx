@@ -39,7 +39,6 @@ export default function Gallery() {
       <Section tone="primary">
         <SectionHeader
           rule
-          chapter={4}
           eyebrow="Gallery"
           title="A curated look at Satkar."
           description="Property, rooms, the cafe, and the moments in between."

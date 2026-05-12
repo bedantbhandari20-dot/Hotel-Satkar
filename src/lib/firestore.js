@@ -50,3 +50,26 @@ export const ROOMS = 'rooms'
 export const MENU = 'menu'
 export const GALLERY = 'gallery'
 export const BOOKINGS = 'bookings'
+
+// ── Booking helper (public site → admin panel) ──────────────────────────────
+// Writes a booking request to Firestore with sensible defaults. Returns the
+// new doc reference so callers can read the generated id.
+export async function createBooking(data) {
+  const payload = {
+    name: (data.name || '').trim(),
+    phone: (data.phone || '').trim(),
+    email: (data.email || '').trim(),
+    checkIn: data.checkIn || '',
+    checkOut: data.checkOut || '',
+    guests: data.guests ?? '',
+    roomType: data.roomType || '',
+    roomNumber: data.roomNumber || '',
+    nights: data.nights ?? null,
+    pricePerNight: data.pricePerNight ?? null,
+    total: data.total ?? null,
+    message: (data.message || '').trim(),
+    source: data.source || 'website',
+    status: 'pending',
+  }
+  return addItem(BOOKINGS, payload)
+}

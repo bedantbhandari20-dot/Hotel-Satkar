@@ -138,7 +138,7 @@ export default function FloatingCTA() {
         </div>
         
         {/* Chat Body - WhatsApp Beige */}
-        <div className="p-5 bg-[#EFEAE2] h-[240px] overflow-y-auto flex flex-col justify-start relative">
+        <div className="p-5 bg-[#EFEAE2] h-[240px] overflow-y-auto overscroll-contain flex flex-col justify-start relative" data-lenis-prevent>
           {/* Subtle WhatsApp pattern overlay could be added here */}
           
           <div className="flex justify-center mb-4">

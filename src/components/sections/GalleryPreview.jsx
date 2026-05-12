@@ -14,7 +14,6 @@ export default function GalleryPreview() {
     <Section tone="secondary" bordered id="gallery" className="scroll-mt-nav">
       <SectionHeader
         rule
-        chapter="दोटीको दृश्य · Views from Doti"
         eyebrow="Gallery"
         nepali="ग्यालरी"
         title="A look around Satkar."

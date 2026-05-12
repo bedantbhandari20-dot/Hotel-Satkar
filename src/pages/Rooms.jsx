@@ -19,7 +19,6 @@ export default function Rooms() {
       <Section tone="primary">
         <SectionHeader
           rule
-          chapter={2}
           eyebrow="Stay"
           title="Six categories. One standard of warmth."
           description={`${rooms.length} room categories from honest twins to family-sized AC suites — every one is cleaned, made, and checked the same way, every day.`}

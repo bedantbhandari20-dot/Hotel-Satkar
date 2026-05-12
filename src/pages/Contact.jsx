@@ -6,6 +6,7 @@ import { site, whatsappLink } from '../data/site.js'
 import { useReveal } from '../hooks/useReveal.js'
 import { useDocumentMeta } from '../hooks/useDocumentMeta.js'
 import { cn } from '../lib/cn.js'
+import { createBooking } from '../lib/firestore.js'
 import GettingHere from '../components/sections/GettingHere.jsx'
 import FAQ from '../components/sections/FAQ.jsx'
 
@@ -21,12 +22,24 @@ export default function Contact() {
 
   const today = new Date().toISOString().slice(0, 10)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const text = `Hi Satkar! I'd like to make a booking.
 Name: ${form.name}
 Phone: ${form.phone}
 Check-in: ${form.checkin}${form.message ? `\nMessage: ${form.message}` : ''}`
+    // Persist the lead first so we keep the record even if WhatsApp is never sent.
+    try {
+      await createBooking({
+        name: form.name,
+        phone: form.phone,
+        checkIn: form.checkin,
+        message: form.message,
+        source: 'contact-form',
+      })
+    } catch (err) {
+      console.error('createBooking failed', err)
+    }
     window.open(whatsappLink(text), '_blank', 'noopener,noreferrer')
     setSent(true)
     setTimeout(() => setSent(false), 4000)

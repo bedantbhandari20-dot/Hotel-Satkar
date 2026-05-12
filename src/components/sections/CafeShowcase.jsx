@@ -16,11 +16,6 @@ export default function CafeShowcase() {
     <Section tone="secondary" bordered id="cafe" className="scroll-mt-nav">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-24 items-center">
         <div className="reveal">
-          <p className="chapter-marker mb-4">
-            <span className="chapter-prefix">Chapter</span>
-            <span className="chapter-sep" aria-hidden> — </span>
-            <span className="chapter-label">बिहानको स्वाद · The morning thali</span>
-          </p>
           <span className="eyebrow text-accent block mb-6">Bakery & Cafe</span>
           <span className="font-mono text-[11px] tracking-[0.14em] text-accent-soft block mb-5 normal-case">परम्पराको स्वाद</span>
           <h2 className="font-display text-d-2 text-text-primary text-balance">

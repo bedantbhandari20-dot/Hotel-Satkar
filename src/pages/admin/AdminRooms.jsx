@@ -83,7 +83,7 @@ export default function AdminRooms() {
       {open && (
         <div className="fixed inset-0 z-50 flex">
           <div className="flex-1 bg-black/40" onClick={close} />
-          <div className="w-full max-w-md bg-[#FAF7F0] h-full overflow-y-auto p-6 shadow-2xl">
+          <div className="w-full max-w-md bg-[#FAF7F0] h-full overflow-y-auto overscroll-contain p-6 shadow-2xl" data-lenis-prevent>
             <div className="flex items-center justify-between mb-6">
               <h3 className="font-display text-xl uppercase tracking-wide text-[#2C2418]">{editId ? 'Edit Room' : 'New Room'}</h3>
               <button onClick={close}><X size={18} className="text-[#6B5E4F]" /></button>

@@ -10,7 +10,6 @@ export default function ReviewsSection() {
     <Section tone="primary" id="reviews" className="scroll-mt-nav">
       <SectionHeader
         rule
-        chapter="साँझको आवाज · An evening in the courtyard"
         eyebrow="Reviews"
         nepali="पाहुनाहरूको प्रतिक्रिया"
         title="What our guests say."

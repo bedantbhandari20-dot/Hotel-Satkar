@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ArrowUpRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import Card from '../ui/Card.jsx'
 import Button from '../ui/Button.jsx'
 import ImageReveal from '../ui/ImageReveal.jsx'
@@ -7,7 +8,7 @@ import Tilt from '../effects/Tilt.jsx'
 import RoomPickerModal from '../ui/RoomPickerModal.jsx'
 
 export default function RoomCard({ room, index }) {
-  const { category, name, description, price, capacity, features, image } = room
+  const { id, category, name, description, price, capacity, features, image } = room
   const [modalOpen, setModalOpen] = useState(false)
 
   return (
@@ -40,7 +41,13 @@ export default function RoomCard({ room, index }) {
         <span className="eyebrow mb-4">{category}</span>
 
         <h3 className="font-display text-d-4 text-text-primary mb-3 text-balance">
-          {name}
+          <Link
+            to={`/rooms/${id}`}
+            className="hover:text-accent transition-colors duration-350 focus:outline-none focus-visible:text-accent"
+            aria-label={`View details for the ${name} room`}
+          >
+            {name}
+          </Link>
         </h3>
 
         <p className="font-body text-sm text-text-secondary leading-relaxed line-clamp-2 mb-6 text-pretty">
@@ -77,17 +84,25 @@ export default function RoomCard({ room, index }) {
             </span>
           </div>
 
-          <Button
-            onClick={() => setModalOpen(true)}
-            variant="primary"
-            size="sm"
-            trailingIcon={<ArrowUpRight size={13} strokeWidth={1.75} />}
-            aria-label={`Check availability for the ${name} room`}
-            magnetic
-            kineticLabel
-          >
-            Book
-          </Button>
+          <div className="flex flex-col items-end gap-2">
+            <Button
+              onClick={() => setModalOpen(true)}
+              variant="primary"
+              size="sm"
+              trailingIcon={<ArrowUpRight size={13} strokeWidth={1.75} />}
+              aria-label={`Check availability for the ${name} room`}
+              magnetic
+              kineticLabel
+            >
+              Book
+            </Button>
+            <Link
+              to={`/rooms/${id}`}
+              className="font-mono text-[10px] uppercase tracking-[0.22em] text-text-tertiary hover:text-accent transition-colors duration-350"
+            >
+              View details →
+            </Link>
+          </div>
         </div>
       </div>
     </Card>
