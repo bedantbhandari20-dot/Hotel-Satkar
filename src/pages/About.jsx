@@ -1,5 +1,6 @@
 import Section from '../components/ui/Section.jsx'
 import About from '../components/sections/About.jsx'
+import Legacy from '../components/sections/Legacy.jsx'
 import Amenities from '../components/sections/Amenities.jsx'
 import ReviewsSection from '../components/sections/ReviewsSection.jsx'
 import ContactCTA from '../components/sections/ContactCTA.jsx'
@@ -36,6 +37,7 @@ export default function AboutPage() {
         </div>
       </Section>
       <About />
+      <Legacy />
       <Amenities />
       <ReviewsSection />
       <ContactCTA />
