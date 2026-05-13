@@ -7,11 +7,11 @@ export default function Legacy() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-24 items-center">
         {/* Text Content */}
         <div className="order-2 lg:order-1">
-          <span className="eyebrow text-accent block mb-6">Note from Us</span>
+          <span className="eyebrow text-accent block mb-12 -mt-8">Note from Harshit</span>
           <h2 className="font-display text-d-2 text-text-primary text-balance">
             Welcome to <em className="font-display text-accent-soft">Satkar.</em>
           </h2>
-          <p className="dropcap mt-6 font-body text-lead text-text-secondary mb-6 text-pretty">
+          <p className="mt-6 font-body text-lead text-text-secondary mb-6 text-pretty">
             It is my absolute pleasure to welcome you to our hotel, bakery, and cafe. Satkar is more than just a place to stay; it is a genuine family tradition of hospitality right here in the heart of Doti.
           </p>
           <p className="font-body text-text-secondary mb-6 text-pretty">
@@ -21,10 +21,6 @@ export default function Legacy() {
             Our doors are always open, and our ovens are always warm. Thank you for choosing to spend your time with us, and we look forward to serving you.
           </p>
           
-          <div className="border-t border-line pt-6 mt-8">
-            <span className="block font-display text-xl text-text-primary">Harshit Bhandari</span>
-            <span className="block font-mono text-[11px] tracking-[0.15em] text-accent-soft uppercase mt-1">Owner</span>
-          </div>
         </div>
 
         {/* Image Content */}

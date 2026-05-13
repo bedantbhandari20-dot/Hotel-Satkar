@@ -62,10 +62,10 @@ export default function Hero() {
         className="absolute inset-0 -z-10 will-change-transform"
       >
         <img
-          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2400&auto=format&fit=crop"
-          alt=""
+          src="/hero-bg.png"
+          alt="Coffee with majestic mountains and morning mist"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ filter: 'sepia(0.25) saturate(0.9) brightness(0.92) contrast(1.05)' }}
+          style={{ filter: 'brightness(0.9) contrast(1.05)' }}
           loading="eager"
           fetchpriority="high"
         />
@@ -122,7 +122,7 @@ export default function Hero() {
               transitionDelay: '300ms',
             }}
           >
-            <span className="hero-coords flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[10px] uppercase tracking-[0.3em]">
+            <span className="hero-coords flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[10px] uppercase tracking-[0.3em] text-black">
               <span className="hero-coords-pin" aria-hidden>◆</span>
               <span>29.26°N</span>
               <span className="hero-coords-dot" aria-hidden>·</span>
@@ -146,11 +146,11 @@ export default function Hero() {
             />
             <span className="relative inline-block">
               <BlurText
-                text="Doti."
+                text="डोटी"
                 delay={1500}
                 duration={2800}
                 stagger={250}
-                className="hero-accent-text italic"
+                className="hero-accent-text font-black tracking-tighter text-[1.15em] text-accent-deep drop-shadow-[3px_3px_0_rgba(44,36,24,0.15)] inline-block"
                 immediate={start}
               />
               {/* Calligraphic stroke that draws in beneath the italic */}
@@ -165,23 +165,6 @@ export default function Hero() {
             </span>
           </h1>
 
-          {/* Nepali tagline */}
-          <p className="mt-5 max-w-2xl font-body text-lead hero-tagline text-pretty">
-            डोटीको मुटुमा एउटा विश्वासिलो स्थान
-          </p>
-
-          {/* Lead — word-stagger reveal */}
-          <p className="mt-7 max-w-xl font-body text-lead hero-lead text-pretty">
-            <SplitText
-              text="Warm rooms, an honest kitchen, and a bakery the town wakes up to — whether you're passing through or staying a season."
-              splitBy="word"
-              stagger={28}
-              delay={1500}
-              duration={900}
-              immediate={start}
-              lineHeightFix="0.32em"
-            />
-          </p>
 
           {/* CTA hierarchy — fade up after type lands */}
           <div
@@ -209,7 +192,7 @@ export default function Hero() {
               trailingIcon={<MessageCircle size={14} strokeWidth={1.75} />}
               magnetic
               kineticLabel
-              className="hero-ghost-btn"
+              className="hero-ghost-btn !bg-accent-pine !border-accent-pine !text-white hover:!bg-accent-moss hover:!border-accent-moss transition-colors duration-300"
             >
               Chat on WhatsApp
             </Button>
