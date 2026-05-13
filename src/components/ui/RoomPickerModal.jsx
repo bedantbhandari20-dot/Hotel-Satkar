@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { X } from 'lucide-react'
 import BookingForm from '../booking/BookingForm.jsx'
 
@@ -6,21 +7,21 @@ import BookingForm from '../booking/BookingForm.jsx'
 function useBodyScrollLock(active) {
   useEffect(() => {
     if (!active) return
-    const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    return () => { document.body.style.overflow = prev }
+    return () => { document.body.style.overflow = '' }
   }, [active])
 }
 
 /**
  * RoomPickerModal — thin wrapper around <BookingForm/>.
  * Keeps a centered, scrollable dialog with a header summarising the room.
+ * Rendered via a Portal so it is never clipped by a parent's overflow:hidden.
  */
 export default function RoomPickerModal({ room, onClose }) {
   useBodyScrollLock(!!room)
   if (!room) return null
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-3 sm:p-4">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
@@ -48,6 +49,7 @@ export default function RoomPickerModal({ room, onClose }) {
           <BookingForm room={room} source="rooms-modal" onClose={onClose} />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
