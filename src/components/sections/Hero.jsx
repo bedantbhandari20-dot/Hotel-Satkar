@@ -192,7 +192,7 @@ export default function Hero() {
               trailingIcon={<MessageCircle size={14} strokeWidth={1.75} />}
               magnetic
               kineticLabel
-              className="hero-ghost-btn !bg-accent-pine !border-accent-pine !text-white hover:!bg-accent-moss hover:!border-accent-moss transition-colors duration-300"
+              className="!bg-accent-pine !border-accent-pine !text-white hover:!bg-accent-moss hover:!border-accent-moss transition-colors duration-300"
             >
               Chat on WhatsApp
             </Button>

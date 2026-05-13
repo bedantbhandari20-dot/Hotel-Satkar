@@ -50,11 +50,11 @@ export default function About() {
           </Button>
         </div>
 
-        <div className="lg:col-span-7 relative reveal reveal-right">
+        <div className="lg:col-span-7 relative reveal reveal-right pb-0 md:pb-12 lg:pb-0">
           <ImageReveal
             src="https://images.unsplash.com/photo-1551882547-ff40c0d13c05?q=80&w=1600&auto=format&fit=crop"
             alt="Satkar Hotel exterior"
-            aspect="aspect-[4/5] md:aspect-[16/10] lg:aspect-[4/5]"
+            aspect="aspect-[16/9] md:aspect-[16/10] lg:aspect-[4/5]"
             kenBurns
             overlay="soft"
             clip
