@@ -166,9 +166,23 @@ export default function Hero() {
           </h1>
 
 
+          {/* Practical subhead — concrete info for first-time visitors */}
+          <p
+            className="mt-6 font-body text-[13px] md:text-sm tracking-wide text-text-primary/80 transition-[opacity,transform] duration-900 ease-out"
+            style={{
+              opacity: start ? 1 : 0,
+              transform: start ? 'translateY(0)' : 'translateY(14px)',
+              transitionDelay: '1900ms',
+            }}
+          >
+            <span className="font-display text-accent-deep">Hotel · Bakery · Cafe</span>
+            <span className="mx-2 text-text-tertiary" aria-hidden>—</span>
+            Rooms from ₹600 · Dipayal Silgadhi · Cafe open 6 am – 10 pm
+          </p>
+
           {/* CTA hierarchy — fade up after type lands */}
           <div
-            className="mt-10 flex flex-wrap items-center gap-4 transition-[opacity,transform] duration-1100 ease-silk"
+            className="mt-8 flex flex-wrap items-center gap-4 transition-[opacity,transform] duration-1100 ease-silk"
             style={{
               opacity: start ? 1 : 0,
               transform: start ? 'translateY(0)' : 'translateY(20px)',
@@ -270,4 +284,3 @@ function TrustCell({ value, label }) {
     </div>
   )
 }
-

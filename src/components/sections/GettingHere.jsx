@@ -1,10 +1,65 @@
 import { useEffect, useRef, useState } from 'react'
-import { Plane, Bus, Car, MapPin, Phone, RotateCw, Check, Pause, Play } from 'lucide-react'
+import { Plane, Bus, Car, MapPin, Phone, RotateCw, Check, Pause, Play, FastForward } from 'lucide-react'
 import Section from '../ui/Section.jsx'
 import Button from '../ui/Button.jsx'
 import { whatsappLink } from '../../data/site.js'
 import { cn } from '../../lib/cn.js'
 import { useReducedMotion } from '../../hooks/useMediaQuery.js'
+
+/* Animated vertical connector that fills downward over the leg's travel duration */
+/* extendBy: extra px to extend the connector past the parent div bottom (used for last step → arrival node) */
+function StepConnector({ isActive, isDone, legAnimMs, prefersReduced, extendBy = 0 }) {
+  const fillRef = useRef(null)
+
+  useEffect(() => {
+    const el = fillRef.current
+    if (!el) return
+
+    if (isDone || (isActive && prefersReduced)) {
+      el.style.transitionDuration = '0ms'
+      el.style.transform = 'scaleY(1)'
+      return
+    }
+
+    if (!isActive) {
+      el.style.transitionDuration = '0ms'
+      el.style.transform = 'scaleY(0)'
+      return
+    }
+
+    // Active + motion allowed — animate fill downward
+    el.style.transitionDuration = '0ms'
+    el.style.transform = 'scaleY(0)'
+    const id1 = requestAnimationFrame(() => {
+      const id2 = requestAnimationFrame(() => {
+        if (fillRef.current) {
+          fillRef.current.style.transitionDuration = `${legAnimMs}ms`
+          fillRef.current.style.transform = 'scaleY(1)'
+        }
+      })
+      return () => cancelAnimationFrame(id2)
+    })
+    return () => cancelAnimationFrame(id1)
+  }, [isActive, isDone, prefersReduced, legAnimMs])
+
+  return (
+    <span
+      aria-hidden
+      className="absolute left-[19px] top-[2.5rem] w-px bg-line/20 z-0 overflow-hidden"
+      style={{ bottom: extendBy ? `-${extendBy}px` : 0 }}
+    >
+      <span
+        ref={fillRef}
+        className="absolute top-0 left-0 right-0 bottom-0 origin-top bg-gradient-to-b from-accent/80 to-accent-pine/50"
+        style={{
+          transform: isDone ? 'scaleY(1)' : 'scaleY(0)',
+          transitionProperty: 'transform',
+          transitionTimingFunction: 'linear',
+        }}
+      />
+    </span>
+  )
+}
 
 /* ============================================================================
    Route data — preserves all the practical detail from the previous design,
@@ -102,6 +157,11 @@ export default function GettingHere() {
   const [activeId, setActiveId] = useState(routes[0].id)
   const [step, setStep] = useState(0)
   const [playing, setPlaying] = useState(true)
+  const [isHovered, setIsHovered] = useState(false)
+  const [replayCount, setReplayCount] = useState(0)
+  const [isResetting, setIsResetting] = useState(false)
+  const [playbackRate, setPlaybackRate] = useState(1)
+  const replayRef = useRef(0)
   const sectionRef = useRef(null)
   const [hasEntered, setHasEntered] = useState(false)
   const [soulKey, setSoulKey] = useState(0)
@@ -127,15 +187,22 @@ export default function GettingHere() {
     return () => io.disconnect()
   }, [])
 
+  // Keep replayRef in sync so stale timeouts can detect a route/replay switch
+  useEffect(() => { replayRef.current = replayCount }, [replayCount])
+
   // Auto-advance steps when playing — duration of each step is proportional
   // to the actual km of that leg (via stepDurationFor)
   useEffect(() => {
-    if (!hasEntered || !playing || prefersReduced) return
+    if (!hasEntered || !playing || isHovered || prefersReduced || isResetting) return
     if (step >= totalSteps - 1) return
-    const ms = stepDurationFor(route, step)
-    const t = setTimeout(() => setStep((s) => s + 1), ms)
+    const thisReplay = replayCount
+    const ms = stepDurationFor(route, step) / playbackRate
+    const t = setTimeout(() => {
+      // Discard if a route switch or replay happened after this timer was set
+      if (replayRef.current === thisReplay) setStep((s) => s + 1)
+    }, ms)
     return () => clearTimeout(t)
-  }, [step, playing, hasEntered, prefersReduced, totalSteps, route])
+  }, [step, playing, isHovered, hasEntered, prefersReduced, totalSteps, route, replayCount, playbackRate, isResetting])
 
   // Reduced motion → reveal all steps immediately
   useEffect(() => {
@@ -151,20 +218,42 @@ export default function GettingHere() {
     setActiveId(id)
     setStep(0)
     setPlaying(true)
+    setReplayCount((c) => c + 1)
+  }
+
+  const handleTabKeyDown = (e, index) => {
+    let nextIndex = index
+    if (e.key === 'ArrowRight') nextIndex = (index + 1) % routes.length
+    else if (e.key === 'ArrowLeft') nextIndex = (index - 1 + routes.length) % routes.length
+
+    if (nextIndex !== index) {
+      switchRoute(routes[nextIndex].id)
+      document.getElementById(`route-tab-${routes[nextIndex].id}`)?.focus()
+    }
   }
 
   const replay = () => {
-    setStep(0)
-    setPlaying(true)
+    setIsResetting(true)
+    setPlaying(false)
+    setTimeout(() => {
+      setStep(0)
+      setPlaying(true)
+      setReplayCount((c) => c + 1)
+      setIsResetting(false)
+    }, 300)
+  }
+
+  const toggleSpeed = () => {
+    setPlaybackRate(r => r === 1 ? 2 : r === 2 ? 0.5 : 1)
   }
 
   // ----- Distance-aware progress --------------------------------------------
   const routeTotalKm = totalKm(route)
-  const traveledKm = cumKmAt(route, step)
+  const traveledKm = isComplete ? routeTotalKm : cumKmAt(route, step)
   const progressKmPct = routeTotalKm > 0 ? (traveledKm / routeTotalKm) * 100 : 0
 
   // Step-timing for the smooth fill transition (matches stepDurationFor)
-  const currentTransitionMs = step > 0 ? stepDurationFor(route, step - 1) : 600
+  const currentTransitionMs = (step > 0 ? stepDurationFor(route, step - 1) : 600) / playbackRate
 
   return (
     <Section tone="secondary" bordered id="getting-here" className="scroll-mt-nav">
@@ -190,20 +279,26 @@ export default function GettingHere() {
       </div>
 
       {/* ============== ORIGIN TABS ============== */}
-      <div className="reveal mb-10 flex flex-wrap gap-2 md:gap-3">
-        {routes.map((r) => {
+      <div className="reveal mb-10 flex flex-wrap gap-2 md:gap-3" role="tablist" aria-label="Starting points">
+        {routes.map((r, i) => {
           const RIcon = r.icon
           const active = r.id === activeId
           return (
             <button
               key={r.id}
+              id={`route-tab-${r.id}`}
               type="button"
+              role="tab"
+              aria-selected={active}
+              aria-controls="journey-panel"
+              tabIndex={active ? 0 : -1}
               onClick={() => switchRoute(r.id)}
-              aria-pressed={active}
+              onKeyDown={(e) => handleTabKeyDown(e, i)}
               className={cn(
                 'group inline-flex items-center gap-2.5 px-4 py-2.5 rounded-pill border',
                 'font-body text-[10.5px] uppercase tracking-[0.22em]',
                 'transition-[background-color,border-color,color,box-shadow] duration-450 ease-out-quart',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary',
                 active
                   ? 'bg-bg-inverse text-text-inverse border-bg-inverse shadow-[0_8px_24px_-12px_rgba(44,36,24,0.5)]'
                   : 'border-line text-text-secondary hover:border-line-strong hover:text-text-primary'
@@ -242,6 +337,31 @@ export default function GettingHere() {
               </p>
             </div>
             <div className="flex items-center gap-2">
+              <span
+                className={cn(
+                  "font-mono text-[9px] uppercase tracking-wider text-accent-soft transition-opacity duration-300 mr-2",
+                  (!playing || isHovered) && !isComplete && !isResetting ? "opacity-100" : "opacity-0"
+                )}
+              >
+                Paused
+              </span>
+              <button
+                type="button"
+                onClick={toggleSpeed}
+                title="Playback speed"
+                className="h-8 px-2 rounded-pill border border-line text-text-secondary hover:border-line-strong hover:text-text-primary transition-colors duration-300 flex items-center justify-center font-mono text-[10px] tracking-wider"
+              >
+                {playbackRate}x
+              </button>
+              <button
+                type="button"
+                onClick={() => { setStep(totalSteps - 1); setPlaying(false) }}
+                aria-label="Skip to end"
+                title="Skip to end"
+                className="w-8 h-8 rounded-full border border-line text-text-secondary hover:border-line-strong hover:text-text-primary transition-colors duration-300 flex items-center justify-center"
+              >
+                <FastForward size={12} strokeWidth={1.75} />
+              </button>
               <button
                 type="button"
                 onClick={() => setPlaying((p) => !p)}
@@ -262,7 +382,18 @@ export default function GettingHere() {
           </div>
 
           {/* Stepper — each row is a 2-column grid: [node + connector] | [card + gap] */}
-          <ol key={route.id} className="relative">
+          <ol
+            id="journey-panel"
+            role="tabpanel"
+            aria-labelledby={`route-tab-${activeId}`}
+            key={`${route.id}-${replayCount}`}
+            onMouseEnter={() => !isComplete && setIsHovered(true)}
+            onMouseLeave={() => !isComplete && setIsHovered(false)}
+            className={cn(
+              "relative transition-opacity duration-300",
+              isResetting ? "opacity-0" : "opacity-100"
+            )}
+          >
 
             {route.steps.map((s, i) => {
               const ModeIcon = s.mode
@@ -278,16 +409,19 @@ export default function GettingHere() {
                 <li
                   key={i}
                   className={cn(
-                    'relative grid grid-cols-[40px_1fr] gap-x-4 transition-[opacity] duration-700 ease-out-expo',
-                    visible ? 'opacity-100' : 'opacity-30',
+                    'relative grid grid-cols-[40px_1fr] gap-x-4 transition-[opacity,transform] duration-700 ease-out-expo',
+                    visible ? 'opacity-100 translate-y-0' : 'opacity-30 translate-y-2',
                   )}
                 >
                   {/* LEFT — node + per-leg connector line */}
                   <div className="relative" style={{ paddingBottom: `${gapPx}px` }}>
-                    {/* Faint rail dot — just a positional anchor, no line */}
-                    {!isLast && (
-                      <span aria-hidden className="absolute left-[19px] top-[2.5rem] bottom-0 w-px bg-line/30 z-0" />
-                    )}
+                    <StepConnector
+                      isActive={isActive}
+                      isDone={isDone}
+                      legAnimMs={isLast ? 800 / playbackRate : legAnimMs / playbackRate}
+                      prefersReduced={prefersReduced}
+                      extendBy={isLast ? 20 : 0}
+                    />
 
                     {/* Node — clickable */}
                     <button
@@ -366,7 +500,7 @@ export default function GettingHere() {
               isComplete ? 'opacity-100' : 'opacity-0 pointer-events-none',
             )}
           >
-            <div className="flex items-center justify-center pt-1">
+            <div className="flex items-start justify-center pt-1">
               <span className="w-10 h-10 rounded-full border border-accent-gold bg-accent-gold/15 flex items-center justify-center shadow-[0_0_0_8px_rgba(196,152,44,0.10)]">
                 <MapPin size={14} strokeWidth={1.5} className="text-accent-gold" />
               </span>

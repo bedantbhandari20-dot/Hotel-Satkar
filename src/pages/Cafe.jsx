@@ -1,9 +1,12 @@
+import { MessageCircle, ArrowUpRight } from 'lucide-react'
 import Section from '../components/ui/Section.jsx'
 import SectionHeader from '../components/ui/SectionHeader.jsx'
+import Button from '../components/ui/Button.jsx'
 import CafeShowcase from '../components/sections/CafeShowcase.jsx'
 import ContactCTA from '../components/sections/ContactCTA.jsx'
 import { useReveal } from '../hooks/useReveal.js'
 import { useDocumentMeta } from '../hooks/useDocumentMeta.js'
+import { whatsappLink } from '../data/site.js'
 
 const menuHighlights = [
   {
@@ -140,6 +143,43 @@ export default function Cafe() {
           ))}
         </div>
       </Section>
+
+      {/* Cake order banner */}
+      <Section tone="secondary" bordered>
+        <div className="reveal text-center max-w-2xl mx-auto">
+          <span className="eyebrow text-accent-gold block mb-4">Custom Cakes</span>
+          <h2 className="font-display text-d-3 text-text-primary text-balance mb-4">
+            Birthdays, pasni, weddings —{' '}
+            <em className="font-display text-accent-soft">we bake for every occasion.</em>
+          </h2>
+          <p className="font-body text-text-secondary mb-8 text-pretty">
+            From Rs 1,200 with just 24 hours notice. Browse our gallery, pick your flavour,
+            and order via WhatsApp.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button
+              to="/cakes"
+              variant="primary"
+              size="lg"
+              trailingIcon={<ArrowUpRight size={14} strokeWidth={1.75} />}
+              magnetic
+              kineticLabel
+            >
+              Browse Cakes
+            </Button>
+            <Button
+              href={whatsappLink("Hi Satkar! I'd like to order a custom cake.")}
+              variant="ghost"
+              size="lg"
+              leadingIcon={<MessageCircle size={14} strokeWidth={1.75} />}
+              className="!bg-accent-pine !border-accent-pine !text-white hover:!bg-accent-moss hover:!border-accent-moss"
+            >
+              Order via WhatsApp
+            </Button>
+          </div>
+        </div>
+      </Section>
+
       <ContactCTA />
     </>
   )

@@ -38,16 +38,28 @@ export default function CafeShowcase() {
             ))}
           </ul>
 
-          <Button
-            to="/menu"
-            variant="ghost"
-            size="md"
-            trailingIcon={<ArrowUpRight size={14} strokeWidth={1.75} />}
-            magnetic
-            kineticLabel
-          >
-            Explore the menu
-          </Button>
+          <div className="flex flex-wrap gap-4">
+            <Button
+              to="/cakes"
+              variant="primary"
+              size="md"
+              trailingIcon={<ArrowUpRight size={14} strokeWidth={1.75} />}
+              magnetic
+              kineticLabel
+            >
+              Order a Cake
+            </Button>
+            <Button
+              to="/menu"
+              variant="ghost"
+              size="md"
+              trailingIcon={<ArrowUpRight size={14} strokeWidth={1.75} />}
+              magnetic
+              kineticLabel
+            >
+              Explore the menu
+            </Button>
+          </div>
         </div>
 
         <div className="reveal reveal-right relative grid grid-cols-2 gap-4 md:gap-6">

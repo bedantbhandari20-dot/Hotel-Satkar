@@ -17,6 +17,7 @@ import About from './pages/About.jsx'
 import Contact from './pages/Contact.jsx'
 import Cafe from './pages/Cafe.jsx'
 import Menu from './pages/Menu.jsx'
+import Cakes from './pages/Cakes.jsx'
 import Events from './pages/Events.jsx'
 import Reviews from './pages/Reviews.jsx'
 import NotFound from './pages/NotFound.jsx'
@@ -75,6 +76,7 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/cafe" element={<Cafe />} />
           <Route path="/menu" element={<Menu />} />
+          <Route path="/cakes" element={<Cakes />} />
           <Route path="/events" element={<Events />} />
           <Route path="/reviews" element={<Reviews />} />
           <Route path="*" element={<NotFound />} />
