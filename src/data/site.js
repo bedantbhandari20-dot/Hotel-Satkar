@@ -35,9 +35,9 @@ export const site = {
 
 export const navLinks = [
   { label: 'Rooms', labelNepali: 'कोठाहरू', to: '/rooms' },
-  { label: 'Bakery & Cafe', labelNepali: 'बेकरी र क्याफे', to: '/cafe' },
+  { label: 'Cafe', labelNepali: 'क्याफे', to: '/cafe' },
   { label: 'Menu', labelNepali: 'मेनु', to: '/menu' },
-  { label: 'Order a Cake', labelNepali: 'केक अर्डर', to: '/cakes' },
+  { label: 'Bakery', labelNepali: 'बेकरी', to: '/cakes' },
   { label: 'Events', labelNepali: 'कार्यक्रमहरू', to: '/events' },
   { label: 'Gallery', labelNepali: 'ग्यालरी', to: '/gallery' },
   { label: 'About', labelNepali: 'हाम्रोबारे', to: '/about' },

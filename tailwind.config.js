@@ -1,59 +1,62 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
       colors: {
         /* ================================================================
-           CINEMATIC PALETTE — "6:48 am, mountain room, pale gold light"
-           Aged linen · warm stone · amber · moss · pine · mist · gold · bark · earth
+           All colors reference CSS variables so the .dark class on <html>
+           flips every token site-wide with zero per-component changes.
+           Space-separated RGB triplets enable Tailwind opacity modifiers
+           (e.g. bg-bg-primary/50). Already-transparent values are full
+           rgba() strings and don't support the modifier.
            ================================================================ */
         bg: {
-          primary: '#F5F0E8',     // aged linen — the world's base
-          secondary: '#EDE7DA',   // warm stone — alt sections
-          tertiary: '#E3DACA',    // deeper stone — bands / wells
-          inverse: '#2C2418',     // dark bark brown — footer / cinematic
+          primary:   'rgb(var(--c-bg-primary)   / <alpha-value>)',
+          secondary: 'rgb(var(--c-bg-secondary) / <alpha-value>)',
+          tertiary:  'rgb(var(--c-bg-tertiary)  / <alpha-value>)',
+          inverse:   'rgb(var(--c-bg-inverse)   / <alpha-value>)',
         },
         surface: {
-          DEFAULT: '#FAF7F0',     // morning paper — card base
-          elevated: '#FEFCF7',    // hover / highest glow
-          sunken: '#E8E0D0',      // inset wells, form beds
+          DEFAULT:  'rgb(var(--c-surface)         / <alpha-value>)',
+          elevated: 'rgb(var(--c-surface-elevated) / <alpha-value>)',
+          sunken:   'rgb(var(--c-surface-sunken)   / <alpha-value>)',
         },
         text: {
-          primary: '#2C2418',     // bark ink — deep, warm
-          secondary: '#4A3B2D',   // worn leather — darkened for legibility
-          tertiary: 'rgba(44,36,24,0.55)',
-          muted: 'rgba(44,36,24,0.38)',
-          inverse: '#F5F0E8',
+          primary:   'rgb(var(--c-text-primary)   / <alpha-value>)',
+          secondary: 'rgb(var(--c-text-secondary) / <alpha-value>)',
+          tertiary:  'var(--c-text-tertiary)',
+          muted:     'var(--c-text-muted)',
+          inverse:   'rgb(var(--c-text-inverse)   / <alpha-value>)',
         },
         accent: {
-          DEFAULT: '#8B7355',     // warm amber-earth
-          soft: '#A08968',        // lighter amber on hover
-          deep: '#6B5538',        // pressed / deepest amber
-          subtle: 'rgba(139,115,85,0.12)',
-          gold: '#C4982C',        // pale gold — highlight moments
-          moss: '#5B6B3F',        // moss green — nature accents
-          pine: '#3D4F2F',        // deep pine
+          DEFAULT: 'rgb(var(--c-accent)      / <alpha-value>)',
+          soft:    'rgb(var(--c-accent-soft) / <alpha-value>)',
+          deep:    'rgb(var(--c-accent-deep) / <alpha-value>)',
+          subtle:  'var(--c-accent-subtle)',
+          gold:    'rgb(var(--c-accent-gold) / <alpha-value>)',
+          moss:    'rgb(var(--c-accent-moss) / <alpha-value>)',
+          pine:    'rgb(var(--c-accent-pine) / <alpha-value>)',
         },
         line: {
-          DEFAULT: 'rgba(44,36,24,0.08)',
-          strong: 'rgba(44,36,24,0.16)',
-          accent: 'rgba(139,115,85,0.30)',
+          DEFAULT: 'var(--c-line)',
+          strong:  'var(--c-line-strong)',
+          accent:  'var(--c-line-accent)',
         },
         mist: {
-          DEFAULT: 'rgba(245,240,232,0.65)',  // fog layer
-          thick: 'rgba(245,240,232,0.85)',     // dense fog
-          thin: 'rgba(245,240,232,0.35)',      // wisp
+          DEFAULT: 'var(--c-mist)',
+          thick:   'var(--c-mist-thick)',
+          thin:    'var(--c-mist-thin)',
         },
-        success: '#5B6B3F',
-        warn: '#C4982C',
+        success: 'rgb(var(--c-success) / <alpha-value>)',
+        warn:    'rgb(var(--c-warn)    / <alpha-value>)',
       },
       fontFamily: {
         display: ['Anton', '"Noto Sans Devanagari"', 'system-ui', 'sans-serif'],
         body: ['"Space Grotesk"', '"Noto Sans Devanagari"', 'system-ui', '-apple-system', 'sans-serif'],
         mono: ['"Space Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
-      /* Optical type scale — cinematic, breath-of-mountain display */
       fontSize: {
         eyebrow: ['0.6875rem', { letterSpacing: '0.24em', lineHeight: '1' }],
         micro: ['0.625rem', { letterSpacing: '0.2em', lineHeight: '1' }],
@@ -76,7 +79,6 @@ export default {
         xl: '14px',
         pill: '999px',
       },
-      /* Layered, cinematic shadows — warm amber tones for mountain morning */
       boxShadow: {
         card:
           '0 1px 0 0 rgba(255,252,247,0.8) inset, 0 2px 6px rgba(44,36,24,0.09), 0 12px 32px -10px rgba(44,36,24,0.22)',
@@ -95,7 +97,6 @@ export default {
         'fog':
           '0 8px 32px rgba(245,240,232,0.4)',
       },
-      /* Base-8 rhythm + named spacing tokens */
       spacing: {
         section: 'clamp(4.5rem, 9vw, 9rem)',
         'section-sm': 'clamp(3rem, 6vw, 5rem)',
@@ -108,18 +109,16 @@ export default {
         prose: '680px',
       },
       transitionTimingFunction: {
-        /* Existing curves */
         'out-expo': 'cubic-bezier(0.19, 1, 0.22, 1)',
         'out-quart': 'cubic-bezier(0.25, 1, 0.5, 1)',
         'out-quint': 'cubic-bezier(0.22, 1, 0.36, 1)',
         'in-out-quart': 'cubic-bezier(0.76, 0, 0.24, 1)',
         elastic: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
-        /* Cinematic curves — physical realism */
-        organic: 'cubic-bezier(0.22, 0.61, 0.36, 1)',    // natural deceleration
-        wood: 'cubic-bezier(0.16, 1, 0.3, 1)',            // heavy, assured
-        silk: 'cubic-bezier(0.23, 1, 0.32, 1)',            // fluid, continuous
-        spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)',      // slight overshoot
-        'mountain': 'cubic-bezier(0.76, 0, 0.24, 1)',     // symmetric, majestic
+        organic: 'cubic-bezier(0.22, 0.61, 0.36, 1)',
+        wood: 'cubic-bezier(0.16, 1, 0.3, 1)',
+        silk: 'cubic-bezier(0.23, 1, 0.32, 1)',
+        spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+        'mountain': 'cubic-bezier(0.76, 0, 0.24, 1)',
       },
       transitionDuration: {
         80: '80ms',
@@ -187,7 +186,6 @@ export default {
         },
       },
       backgroundImage: {
-        // Warm sepia-tinted grain — aged paper, mountain morning light
         'noise':
           "url(\"data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.17  0 0 0 0 0.14  0 0 0 0 0.09  0 0 0 0.08 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>\")",
         'vignette':

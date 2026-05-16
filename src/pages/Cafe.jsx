@@ -1,4 +1,3 @@
-import { MessageCircle, ArrowUpRight } from 'lucide-react'
 import Section from '../components/ui/Section.jsx'
 import SectionHeader from '../components/ui/SectionHeader.jsx'
 import Button from '../components/ui/Button.jsx'
@@ -6,32 +5,8 @@ import CafeShowcase from '../components/sections/CafeShowcase.jsx'
 import ContactCTA from '../components/sections/ContactCTA.jsx'
 import { useReveal } from '../hooks/useReveal.js'
 import { useDocumentMeta } from '../hooks/useDocumentMeta.js'
-import { whatsappLink } from '../data/site.js'
 
 const menuHighlights = [
-  {
-    section: 'Bakery',
-    items: [
-      {
-        name: 'Croissants & Danishes',
-        desc: 'Laminated overnight, baked at dawn.',
-        price: 'Rs 80–150',
-        image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=600&auto=format&fit=crop',
-      },
-      {
-        name: 'Custom Cakes',
-        desc: 'Birthdays, anniversaries, corporate orders.',
-        price: 'From Rs 1,200',
-        image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=600&auto=format&fit=crop',
-      },
-      {
-        name: 'Daily Breads',
-        desc: 'Sourdough, milk loaf, whole wheat.',
-        price: 'Rs 90–220',
-        image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=600&auto=format&fit=crop',
-      },
-    ],
-  },
   {
     section: 'Cafe',
     items: [
@@ -83,8 +58,8 @@ const menuHighlights = [
 export default function Cafe() {
   useReveal()
   useDocumentMeta({
-    title: 'Bakery & Cafe',
-    description: 'Sourdough proofed overnight, pour-over coffee, and Far-Western thalis. Custom cakes with a day\u2019s notice.',
+    title: 'Cafe',
+    description: 'Pour-over coffee, Far-Western thalis, and a breakfast menu worth waking up for.',
     path: '/cafe',
   })
   return (
@@ -96,7 +71,7 @@ export default function Cafe() {
           rule
           eyebrow="Menu"
           title="What we make."
-          description="A short, honest menu. Bakery from dawn, cafe through the day, restaurant from noon."
+          description="A short, honest menu. Cafe through the day, restaurant from noon."
           align="center"
         />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -141,42 +116,6 @@ export default function Cafe() {
               </ul>
             </div>
           ))}
-        </div>
-      </Section>
-
-      {/* Cake order banner */}
-      <Section tone="secondary" bordered>
-        <div className="reveal text-center max-w-2xl mx-auto">
-          <span className="eyebrow text-accent-gold block mb-4">Custom Cakes</span>
-          <h2 className="font-display text-d-3 text-text-primary text-balance mb-4">
-            Birthdays, pasni, weddings —{' '}
-            <em className="font-display text-accent-soft">we bake for every occasion.</em>
-          </h2>
-          <p className="font-body text-text-secondary mb-8 text-pretty">
-            From Rs 1,200 with just 24 hours notice. Browse our gallery, pick your flavour,
-            and order via WhatsApp.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button
-              to="/cakes"
-              variant="primary"
-              size="lg"
-              trailingIcon={<ArrowUpRight size={14} strokeWidth={1.75} />}
-              magnetic
-              kineticLabel
-            >
-              Browse Cakes
-            </Button>
-            <Button
-              href={whatsappLink("Hi Satkar! I'd like to order a custom cake.")}
-              variant="ghost"
-              size="lg"
-              leadingIcon={<MessageCircle size={14} strokeWidth={1.75} />}
-              className="!bg-accent-pine !border-accent-pine !text-white hover:!bg-accent-moss hover:!border-accent-moss"
-            >
-              Order via WhatsApp
-            </Button>
-          </div>
         </div>
       </Section>
 
