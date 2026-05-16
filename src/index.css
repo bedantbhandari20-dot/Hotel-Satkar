@@ -10,6 +10,40 @@
 
 @layer base {
   :root {
+    /* ── Color tokens: light mode ─────────────────────────────────────────
+       Space-separated RGB triplets → Tailwind opacity modifier support
+       e.g. bg-bg-primary/50 works without extra configuration.
+       Already-transparent values are full rgba() — no modifier support.
+    ────────────────────────────────────────────────────────────────────── */
+    --c-bg-primary:       245 240 232;
+    --c-bg-secondary:     237 231 218;
+    --c-bg-tertiary:      227 218 202;
+    --c-bg-inverse:        44  36  24;
+    --c-surface:          250 247 240;
+    --c-surface-elevated: 254 252 247;
+    --c-surface-sunken:   232 224 208;
+    --c-text-primary:      44  36  24;
+    --c-text-secondary:    74  59  45;
+    --c-text-inverse:     245 240 232;
+    --c-accent:           139 115  85;
+    --c-accent-soft:      160 137 104;
+    --c-accent-deep:      107  85  56;
+    --c-accent-gold:      196 152  44;
+    --c-accent-moss:       91 107  63;
+    --c-accent-pine:       61  79  47;
+    --c-success:           91 107  63;
+    --c-warn:             196 152  44;
+    /* transparent composites */
+    --c-text-tertiary:  rgba(44,  36,  24,  0.55);
+    --c-text-muted:     rgba(44,  36,  24,  0.38);
+    --c-accent-subtle:  rgba(139, 115, 85,  0.12);
+    --c-line:           rgba(44,  36,  24,  0.08);
+    --c-line-strong:    rgba(44,  36,  24,  0.16);
+    --c-line-accent:    rgba(139, 115, 85,  0.30);
+    --c-mist:           rgba(245, 240, 232, 0.65);
+    --c-mist-thick:     rgba(245, 240, 232, 0.85);
+    --c-mist-thin:      rgba(245, 240, 232, 0.35);
+
     /* Cinematic design tokens — single source of truth */
     --grain-opacity: 0.05;
     --vignette-opacity: 0.65;
@@ -44,6 +78,44 @@
     }
   }
 
+  /* ── Color tokens: dark mode ──────────────────────────────────────────
+     Warm dark — not cold blue-black. Aged bark, moonlit linen, ember gold.
+  ────────────────────────────────────────────────────────────────────── */
+  .dark {
+    --c-bg-primary:        24  18  16;
+    --c-bg-secondary:      33  25  16;
+    --c-bg-tertiary:       44  36  24;
+    --c-bg-inverse:       245 240 232;
+    --c-surface:           34  24  16;
+    --c-surface-elevated:  44  34  20;
+    --c-surface-sunken:    18  14   8;
+    --c-text-primary:     240 234 224;
+    --c-text-secondary:   192 176 144;
+    --c-text-inverse:      44  36  24;
+    --c-accent:           160 137 104;
+    --c-accent-soft:      184 160 128;
+    --c-accent-deep:      139 115  85;
+    --c-accent-gold:      212 168  60;
+    --c-accent-moss:      123 145  85;
+    --c-accent-pine:       91 115  69;
+    --c-success:          123 145  85;
+    --c-warn:             212 168  60;
+    /* transparent composites — base flips to warm cream */
+    --c-text-tertiary:  rgba(240, 234, 224, 0.55);
+    --c-text-muted:     rgba(240, 234, 224, 0.38);
+    --c-accent-subtle:  rgba(160, 137, 104, 0.12);
+    --c-line:           rgba(240, 234, 224, 0.08);
+    --c-line-strong:    rgba(240, 234, 224, 0.16);
+    --c-line-accent:    rgba(160, 137, 104, 0.30);
+    --c-mist:           rgba(24,  18,  16,  0.65);
+    --c-mist-thick:     rgba(24,  18,  16,  0.85);
+    --c-mist-thin:      rgba(24,  18,  16,  0.35);
+    /* scrollbar */
+    --scrollbar-track: #2C2418;
+    --scrollbar-thumb: rgba(160, 137, 104, 0.30);
+    --scrollbar-thumb-hover: rgba(160, 137, 104, 0.50);
+  }
+
   /* Smooth scrolling, but only when user hasn't requested reduced motion */
   html {
     scroll-behavior: smooth;
@@ -64,7 +136,7 @@
       'kern' on,
       'liga' on;
     font-variant-ligatures: common-ligatures contextual;
-    background-color: #F5F0E8;
+    background-color: rgb(var(--c-bg-primary));
   }
 
   /* Film grain — animated, fixed, barely perceptible.
@@ -433,7 +505,7 @@
     border: 1px solid theme('colors.line.DEFAULT');
     border-radius: theme('borderRadius.card');
     overflow: hidden;
-    background: #F5F0E8;
+    background: rgb(var(--c-bg-primary));
     box-shadow: theme('boxShadow.card');
   }
   .route-leg {
@@ -524,7 +596,7 @@
     transition: transform var(--t-normal) var(--ease-wood);
   }
   .link-line:hover {
-    color: #8B7355;
+    color: rgb(var(--c-accent));
   }
   .link-line:hover::after {
     transform-origin: left;
@@ -1126,3 +1198,67 @@
   will-change: transform;
   backface-visibility: hidden;
 }
+
+/* ============================================================
+   DARK MODE — targeted overrides for elements that can't use
+   CSS variable tokens (hardcoded inline SVG, blend modes, etc.)
+   ============================================================ */
+
+/* Grain: multiply darkens light pages; screen lightens dark pages */
+.dark body::before {
+  mix-blend-mode: screen;
+  opacity: 0.03;
+}
+
+/* Dark mode warm-gradient and fog-layer background-image utilities */
+.dark .bg-warm-gradient {
+  background-image: linear-gradient(180deg,
+    rgb(var(--c-bg-primary)) 0%,
+    rgb(var(--c-bg-secondary)) 50%,
+    rgb(var(--c-bg-primary)) 100%);
+}
+.dark .bg-fog-layer {
+  background-image: linear-gradient(180deg,
+    rgba(var(--c-bg-primary), 0) 0%,
+    rgba(var(--c-bg-primary), 0.6) 40%,
+    rgba(var(--c-bg-primary), 0.8) 60%,
+    rgba(var(--c-bg-primary), 0) 100%);
+}
+
+/* Pine silhouettes: use lighter value in dark mode */
+.dark .pine-silhouette {
+  color: rgba(123, 145, 85, 0.12);
+  mix-blend-mode: screen;
+}
+
+/* Selection */
+.dark ::selection {
+  background: rgba(212, 168, 60, 0.28);
+  color: rgb(var(--c-text-primary));
+}
+.dark ::-moz-selection {
+  background: rgba(212, 168, 60, 0.28);
+  color: rgb(var(--c-text-primary));
+}
+
+/* Card frame inner border */
+.dark .card-frame::after {
+  border-color: rgba(240, 234, 224, 0.04);
+}
+.dark .card-frame:hover::after {
+  border-color: rgba(160, 137, 104, 0.15);
+}
+
+/* Skeleton shimmer */
+.dark .skeleton {
+  background:
+    linear-gradient(90deg,
+      rgba(44,36,24,0.35) 0%,
+      rgba(44,36,24,0.65) 35%,
+      rgba(60,48,30,0.80) 50%,
+      rgba(44,36,24,0.65) 65%,
+      rgba(44,36,24,0.35) 100%);
+  background-size: 220% 100%;
+}
+
+/* Theme-color meta is updated by ThemeContext */

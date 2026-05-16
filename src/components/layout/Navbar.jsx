@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { Phone, ArrowUpRight } from 'lucide-react'
+import { Phone, ArrowUpRight, Sun, Moon } from 'lucide-react'
 import { cn } from '../../lib/cn.js'
 import { navLinks, site } from '../../data/site.js'
 import Button from '../ui/Button.jsx'
+import { useTheme } from '../../contexts/ThemeContext.jsx'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [progress, setProgress] = useState(0)
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
+  const { dark, toggle } = useTheme()
 
   useEffect(() => {
     let raf = 0
@@ -111,8 +113,39 @@ export default function Navbar() {
         </nav>
 
         {/* Right cell — CTA on desktop, burger on mobile */}
-        <div className="flex items-center justify-end">
-          <div className="hidden lg:block">
+        <div className="flex items-center justify-end gap-1">
+          {/* Dark mode toggle */}
+          <button
+            type="button"
+            onClick={toggle}
+            aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+            className={cn(
+              'relative inline-flex items-center justify-center w-9 h-9 rounded',
+              'text-text-secondary hover:text-text-primary',
+              'transition-colors duration-300'
+            )}
+          >
+            <span
+              className={cn(
+                'absolute inset-0 flex items-center justify-center',
+                'transition-all duration-300 ease-out-quart',
+                dark ? 'opacity-0 rotate-90 scale-50' : 'opacity-100 rotate-0 scale-100'
+              )}
+            >
+              <Sun size={16} strokeWidth={1.5} />
+            </span>
+            <span
+              className={cn(
+                'absolute inset-0 flex items-center justify-center',
+                'transition-all duration-300 ease-out-quart',
+                dark ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-50'
+              )}
+            >
+              <Moon size={16} strokeWidth={1.5} />
+            </span>
+          </button>
+
+          <div className="hidden lg:block ml-2">
             <Button
               href={`tel:${site.phoneTel}`}
               variant="primary"
